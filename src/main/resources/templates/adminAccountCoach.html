@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!--    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="../styleHomeAdmin.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+<!--    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+    <title>Coach Account</title>
+    <script type="text/javascript">
+        function addCoach() {
+            let name = $('#nameCoach').val();
+            let ageCoach = $('#ageCoach').val();
+            let addressCoach = $('#addressCoach').val();
+            let phoneCoach = $('#phoneCoach').val();
+            let newCoach = {
+                name : nameCoach,
+                age : ageCoach,
+                address : addressCoach,
+                phoneNumber : phoneCoach
+            };
+            $.ajax({
+                headers : {
+                    'Accept' : 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type :"POST",
+                data : JSON.stringify(newCoach),
+                url:"/admin/coach_account_api",
+                success: function (data) {
+                    successHandler();
+                    //addAppUser();
+                }
+            })
+            event.preventDefault();
+        };
+        function addAppUser() {
+            let usernameCoach = $('#usernameCoach').val();
+            let passwordCoach = $('#passwordCoach').val();
+            let newAppUser = {
+                username : usernameCoach,
+                password : passwordCoach,
+                role : {
+                    id : 3
+                }
+            }
+            $.ajax({
+                headers: {
+                    'Accept' : 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                type :"POST",
+                data : JSON.stringify(newAppUser),
+                url:"/app_user",
+                success: function (data) {
+                    addCoach();
+                }
+            })
+        }
+        function deleteCoach(e) {
+            let idCoach = e.getAttribute("href");
+            $.ajax({
+                type : "DELETE",
+                url : "/admin/coach_account_api/" + idCoach,
+                success: function (data){
+                    successHandler();
+                }
+            })
+            event.preventDefault();
+        }
+        function successHandler() {
+            $.ajax({
+                type:"GET",
+                url:"/admin/coach_account_api",
+                success : function (listCoach){
+                    let content = "<table class='table' id='coachList'>\n" +
+                        "<thead class='thead-dark'>\n" +
+                            "<tr><th scope='col'>Thứ tự</th>\n" +
+                                "<th scope='col'>Tên giảng viên</th>\n" +
+                                "<th scope='col'>Tuổi</th>\n" +
+                                "<th scope='col'>Địa chỉ</th>\n" +
+                                "<th scope='col'>Số điện thoại</th>\n" +
+                                "<th scope='col'>Xoá</th>\n" +
+                                "<th scope='col'>Sửa</th>\n" +
+                        "</tr></thead><tbody>"
+
+                    for (let i = 0; i < listCoach.length;i++){
+                        content += getCoach(listCoach[i]);
+                    }
+                    document.getElementById("coachList").innerHTML = content;
+                }
+
+            })
+        }
+        function getCoach(coach) {
+            let row =`<tr>
+                    <th scope="row">${coach.idCoach}</th>
+                    <td>${coach.name}</td>
+                    <td>${coach.age}</td>
+                    <td>${coach.address}</td>
+                    <td>${coach.phoneNumber}</td>
+                    <th><a style="color: blue" onclick="deleteCoach(this)" href=${coach.idCoach} >Xoá</a></th>
+                    <th><a style="color: blue" href="/admin/coach_account_edit/${coach.idCoach}">Sửa</a></th>
+                </tr>`
+            return row;
+        }
+    </script>
+</head>
+<body>
+<div class="wrapper">
+    <nav th:replace="~{layoutAdmin :: nav_left}"></nav>
+    <div id="content">
+        <nav th:replace="~{layoutAdmin :: nav_top}"></nav>
+        <span><h1>Danh sách giảng viên</h1></span>
+        <!-- Button trigger modal -->
+        <span><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Thêm giảng viên
+        </button></span>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thêm giảng viên</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form method="post" th:object="${coach}">
+                            <table>
+                                <tr>
+                                    <td class="modal-title">Tên giảng viên</td>
+                                    <td><input id="nameCoach" name="name" placeholder="Nhập tên" th:field="*{name} "/></td>
+                                </tr>
+                                <tr>
+                                    <td class="modal-title">Tài khoản</td>
+                                    <td><input id="usernameCoach" placeholder="Nhập tài khoản"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="modal-title">Mật khẩu</td>
+                                    <td><input id="passwordCoach" placeholder="Nhập mật khẩu"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="modal-title">Tuổi</td>
+                                    <td><input id="ageCoach" name="ageCoach" placeholder="Nhập tuổi" th:field="*{age} "/></td>
+                                </tr>
+                                <tr>
+                                    <td class="modal-title">Số điện thoại</td>
+                                    <td><input id="phoneCoach" name="phoneNumber" placeholder="Nhập số điện thoại" th:field="*{phoneNumber} "/></td>
+                                </tr>
+                                <tr>
+                                    <td class="modal-title">Địa chỉ</td>
+                                    <td><input id="addressCoach" name="addressCoach" placeholder="Nhập địa chỉ" th:field="*{address} "/></td>
+                                </tr>
+                                <tr>
+                                    <td><button type="button" class="btn btn-primary" id="createCoach" data-dismiss="modal" value="Create" onclick="addAppUser()">Create</button></td>
+                                </tr>
+                            </table>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <table class="table" id="coachList">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Thứ tự</th>
+                <th scope="col">Tên giảng viên</th>
+                <th scope="col">Tuổi</th>
+                <th scope="col">Địa chỉ</th>
+                <th scope="col">Số điện thoại</th>
+                <th scope="col">Xoá</th>
+                <th scope="col">Sửa</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="coach : ${listCoach}">
+                <tr>
+                    <th scope="row" th:text="${coach.id}"></th>
+                    <td th:text="${coach.name}"></td>
+                    <td th:text="${coach.age}"></td>
+                    <td th:text="${coach.address}"></td>
+                    <td th:text="${coach.phoneNumber}"></td>
+                    <th><a style="color: blue" onclick="deleteCoach(this)" th:attr="href=${coach.id}" >Xoá</a></th>
+                    <th><a style="color: blue" th:href="@{/admin/coach_account_edit/__${coach.id}__}">Sửa</a></th>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div th:replace="~{layoutAdmin :: toggle_nav}"></div>
+</body>
+</html>
