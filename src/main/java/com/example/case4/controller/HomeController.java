@@ -13,9 +13,9 @@ public class HomeController {
     public String homeStudent(){
         return "homeStudent";
     }
-    @GetMapping("/teacher")
-    public String homeTeacher(){
-        return "homeTeacher";
+    @GetMapping("/coach")
+    public String homeCoach(){
+        return "homeCoach";
     }
     @GetMapping("/admin")
     public String homeAdmin(){
