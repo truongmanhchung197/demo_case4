@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layoutAdmin2 :: layout_head}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="wrapper">
+    <nav th:replace="~{layoutAdmin2 :: nav_left}"></nav>
+    <div id="content">
+        <nav th:replace="~{layoutAdmin2 :: nav_top}"></nav>
+        <h1>Sửa tài khoản giảng viên</h1>
+        <div class="modal-body">
+            <form method="post" th:object="${coach}">
+                <input type="hidden" name="idCoach" th:value="*{id}">
+                <table>
+                    <tr>
+                        <td class="modal-title">Tên giảng viên</td>
+                        <td><input name="name" placeholder="Nhập tên" th:value="*{name}"/></td>
+                    </tr>
+                    <tr>
+                        <td class="modal-title">Tuổi</td>
+                        <td><input name="age" placeholder="Nhập tuổi" th:value="*{age} "/></td>
+                    </tr>
+                    <tr>
+                        <td class="modal-title">Số điện thoại</td>
+                        <td><input name="phoneNumber" placeholder="Nhập số điện thoại" th:value="*{phoneNumber} "/></td>
+                    </tr>
+                    <tr>
+                        <td class="modal-title">Địa chỉ</td>
+                        <td><input name="address" placeholder="Nhập địa chỉ" th:value="*{address} "/></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" class="btn btn-primary" th:value="Sửa"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<div th:replace="~{layoutAdmin :: toggle_nav}"></div>
+</body>
+</html>
