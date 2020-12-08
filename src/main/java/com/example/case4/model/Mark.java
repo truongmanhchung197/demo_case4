@@ -7,12 +7,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "marks")
+@Table
 public class Mark {
     @Id
+    private Long id;
     @ManyToOne
     private Student student;
-    @Id
     @ManyToOne
     private Module module;
     private Float theory_point;

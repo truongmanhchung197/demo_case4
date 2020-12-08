@@ -2,18 +2,17 @@ package com.example.case4.model;
 
 
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
-@Table(name = "avgmarks")
+@Table
 public class AverageMark {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
     @ManyToOne
-    private Class classname;
-    @Id
+    private Classroom classroom;
     @ManyToOne
     private Module module;
     private Float avgMark;
@@ -21,18 +20,27 @@ public class AverageMark {
     public AverageMark() {
     }
 
-    public AverageMark(Class classname, Module module, Float avgMark) {
-        this.classname = classname;
+    public AverageMark(Long id, Classroom classroom, Module module, Float avgMark) {
+        this.id = id;
+        this.classroom = classroom;
         this.module = module;
         this.avgMark = avgMark;
     }
 
-    public Class getClassname() {
-        return classname;
+    public Long getIdMark() {
+        return id;
     }
 
-    public void setClassname(Class classname) {
-        this.classname = classname;
+    public void setIdMark(Long id) {
+        this.id = id;
+    }
+
+    public Classroom getClassroom() {
+        return classroom;
+    }
+
+    public void setClassroom(Classroom classroom) {
+        this.classroom = classroom;
     }
 
     public Module getModule() {

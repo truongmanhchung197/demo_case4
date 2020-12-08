@@ -5,7 +5,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "students")
+@Table
 public class Student {
     @Id
     private Long id;
@@ -16,22 +16,22 @@ public class Student {
     private String tel;
 
     @ManyToOne
-    private Class className;
+    private Classroom classroom;
 
-    @OneToMany(mappedBy = "diaries")
+    @OneToMany
     private List<Diary> diaryList;
 
     public Student() {
     }
 
-    public Student(Long id, String name, Integer age, String address, boolean status, String tel, Class className, List<Diary> diaryList) {
+    public Student(Long id, String name, Integer age, String address, boolean status, String tel, Classroom classroom, List<Diary> diaryList) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.address = address;
         this.status = status;
         this.tel = tel;
-        this.className = className;
+        this.classroom = classroom;
         this.diaryList = diaryList;
     }
 
@@ -83,12 +83,12 @@ public class Student {
         this.tel = tel;
     }
 
-    public Class getClassName() {
-        return className;
+    public Classroom getClassroom() {
+        return classroom;
     }
 
-    public void setClassName(Class className) {
-        this.className = className;
+    public void setClassroom(Classroom classroom) {
+        this.classroom = classroom;
     }
 
     public List<Diary> getDiaryList() {

@@ -4,21 +4,23 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "classes")
-public class Class {
+@Table
+public class Classroom {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     private String name;
 
     @ManyToOne
     private Coach coach;
 
-    @OneToMany(mappedBy = "Diary")
+    @OneToMany
     private List<Diary> diaryList;
 
-    public Class() {
+    public Classroom() {
     }
 
-    public Class(String name, Coach coach, List<Diary> diaryList) {
+    public Classroom(String name, Coach coach, List<Diary> diaryList) {
         this.name = name;
         this.coach = coach;
         this.diaryList = diaryList;

@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "coaches")
+@Table
 public class Coach {
     @Id
     private Long id;
