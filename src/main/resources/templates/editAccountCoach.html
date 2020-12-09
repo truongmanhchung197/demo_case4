@@ -12,7 +12,7 @@
         <h1>Sửa tài khoản giảng viên</h1>
         <div class="modal-body">
             <form method="post" th:object="${coach}">
-                <input type="hidden" name="idCoach" th:value="*{id}">
+                <input type="hidden" name="id" th:value="*{id}">
                 <table>
                     <tr>
                         <td class="modal-title">Tên giảng viên</td>
@@ -29,6 +29,16 @@
                     <tr>
                         <td class="modal-title">Địa chỉ</td>
                         <td><input name="address" placeholder="Nhập địa chỉ" th:value="*{address} "/></td>
+                    </tr>
+                    <tr>
+                        <td class="modal-title">Giới tính</td>
+                        <td><select name="gender">
+                            <option>Nam</option>
+                            <option>Nữ</option>
+                            <option>Khác</option>
+                        </select>
+
+                        </td>
                     </tr>
                     <tr>
                         <td><input type="submit" class="btn btn-primary" th:value="Sửa"></td>

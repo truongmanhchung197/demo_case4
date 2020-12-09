@@ -26,16 +26,21 @@
 
     <title>Coach Account</title>
     <script type="text/javascript">
-        function addCoach() {
-            let name = $('#nameCoach').val();
+
+        function addCoach(id) {
+            let idCoach = id;
+            let nameCoach = $('#nameCoach').val();
             let ageCoach = $('#ageCoach').val();
             let addressCoach = $('#addressCoach').val();
             let phoneCoach = $('#phoneCoach').val();
+            let genderCoach = $('#genderCoach').val();
             let newCoach = {
+                id : idCoach,
                 name : nameCoach,
                 age : ageCoach,
                 address : addressCoach,
-                phoneNumber : phoneCoach
+                phoneNumber : phoneCoach,
+                gender : genderCoach
             };
             $.ajax({
                 headers : {
@@ -59,7 +64,7 @@
                 username : usernameCoach,
                 password : passwordCoach,
                 role : {
-                    id : 3
+                    id : 2
                 }
             }
             $.ajax({
@@ -71,20 +76,42 @@
                 data : JSON.stringify(newAppUser),
                 url:"/app_user",
                 success: function (data) {
-                    addCoach();
+                    $.ajax({
+                        type:"GET",
+                        url:"/app_user",
+                        success : function (listAppUser){
+                            for (let i = 0; i < listAppUser.length;i++){
+                                if (listAppUser[i].username === $('#usernameCoach').val()){
+                                    addCoach(listAppUser[i].id);
+                                    break
+                                }
+                            }
+                        }
+
+                    })
                 }
             })
         }
         function deleteCoach(e) {
-            let idCoach = e.getAttribute("href");
+            let id = e.getAttribute("href");
             $.ajax({
                 type : "DELETE",
-                url : "/admin/coach_account_api/" + idCoach,
+                url : "/admin/coach_account_api/" + id,
                 success: function (data){
+                    deleteAppUser(e)
                     successHandler();
                 }
             })
             event.preventDefault();
+        }
+        function deleteAppUser(e) {
+            let id = e.getAttribute("href");
+            $.ajax({
+                type : "DELETE",
+                url : "/app_user/" + id,
+                success: function (data){
+                }
+            })
         }
         function successHandler() {
             $.ajax({
@@ -98,27 +125,29 @@
                                 "<th scope='col'>Tuổi</th>\n" +
                                 "<th scope='col'>Địa chỉ</th>\n" +
                                 "<th scope='col'>Số điện thoại</th>\n" +
+                                "<th scope='col'>Giới tính</th>\n" +
                                 "<th scope='col'>Xoá</th>\n" +
                                 "<th scope='col'>Sửa</th>\n" +
                         "</tr></thead><tbody>"
 
                     for (let i = 0; i < listCoach.length;i++){
-                        content += getCoach(listCoach[i]);
+                        content += getCoach(listCoach[i],i+1);
                     }
                     document.getElementById("coachList").innerHTML = content;
                 }
 
             })
         }
-        function getCoach(coach) {
+        function getCoach(coach, i) {
             let row =`<tr>
-                    <th scope="row">${coach.idCoach}</th>
+                    <th scope="row">${i}</th>
                     <td>${coach.name}</td>
                     <td>${coach.age}</td>
                     <td>${coach.address}</td>
                     <td>${coach.phoneNumber}</td>
-                    <th><a style="color: blue" onclick="deleteCoach(this)" href=${coach.idCoach} >Xoá</a></th>
-                    <th><a style="color: blue" href="/admin/coach_account_edit/${coach.idCoach}">Sửa</a></th>
+                    <td>${coach.gender}</td>
+                    <th><a style="color: blue" onclick="deleteCoach(this)" href=${coach.id} >Xoá</a></th>
+                    <th><a style="color: blue" href="/admin/coach_account_edit/${coach.id}">Sửa</a></th>
                 </tr>`
             return row;
         }
@@ -129,11 +158,13 @@
     <nav th:replace="~{layoutAdmin :: nav_left}"></nav>
     <div id="content">
         <nav th:replace="~{layoutAdmin :: nav_top}"></nav>
-        <span><h1>Danh sách giảng viên</h1></span>
-        <!-- Button trigger modal -->
-        <span><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        <div style="display: inline">
+            <span><h1>Danh sách giảng viên</h1></span>
+            <!-- Button trigger modal -->
+            <span><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
             Thêm giảng viên
         </button></span>
+        </div>
 
         <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -173,6 +204,16 @@
                                     <td><input id="addressCoach" name="addressCoach" placeholder="Nhập địa chỉ" th:field="*{address} "/></td>
                                 </tr>
                                 <tr>
+                                    <td class="modal-title">Giới tính</td>
+                                    <td>
+                                        <select id="genderCoach" name="gender">
+                                            <option>Nam</option>
+                                            <option>Nữ</option>
+                                            <option>Khác</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <td><button type="button" class="btn btn-primary" id="createCoach" data-dismiss="modal" value="Create" onclick="addAppUser()">Create</button></td>
                                 </tr>
                             </table>
@@ -193,18 +234,20 @@
                 <th scope="col">Tuổi</th>
                 <th scope="col">Địa chỉ</th>
                 <th scope="col">Số điện thoại</th>
+                <th scope="col">Giới tính</th>
                 <th scope="col">Xoá</th>
                 <th scope="col">Sửa</th>
             </tr>
             </thead>
             <tbody>
-            <th:block th:each="coach : ${listCoach}">
+            <th:block th:each="coach,iStat : ${listCoach}">
                 <tr>
-                    <th scope="row" th:text="${coach.id}"></th>
+                    <th scope="row" th:text="${iStat.index + 1}"></th>
                     <td th:text="${coach.name}"></td>
                     <td th:text="${coach.age}"></td>
                     <td th:text="${coach.address}"></td>
                     <td th:text="${coach.phoneNumber}"></td>
+                    <td th:text="${coach.gender}"></td>
                     <th><a style="color: blue" onclick="deleteCoach(this)" th:attr="href=${coach.id}" >Xoá</a></th>
                     <th><a style="color: blue" th:href="@{/admin/coach_account_edit/__${coach.id}__}">Sửa</a></th>
                 </tr>
