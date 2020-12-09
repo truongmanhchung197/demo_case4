@@ -1,6 +1,8 @@
 package com.example.case4.model;
 
 
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -14,6 +16,10 @@ public class Student {
     private String address;
     private boolean status;
     private String tel;
+    private String image;
+
+    @Transient
+    private MultipartFile avatar;
 
     @ManyToOne
     private Classroom classroom;
@@ -24,13 +30,14 @@ public class Student {
     public Student() {
     }
 
-    public Student(Long id, String name, Integer age, String address, boolean status, String tel, Classroom classroom, List<Diary> diaryList) {
+    public Student(Long id, String name, Integer age, String address, boolean status, String tel, String image, Classroom classroom, List<Diary> diaryList) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.address = address;
         this.status = status;
         this.tel = tel;
+        this.image = image;
         this.classroom = classroom;
         this.diaryList = diaryList;
     }
@@ -97,5 +104,21 @@ public class Student {
 
     public void setDiaryList(List<Diary> diaryList) {
         this.diaryList = diaryList;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public MultipartFile getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(MultipartFile avatar) {
+        this.avatar = avatar;
     }
 }
