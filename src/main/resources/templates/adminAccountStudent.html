@@ -25,17 +25,18 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-            </tr>
+            <th:block>
+                <tr th:each="student,iStat : ${listStudent}">
+                    <th scope="row" th:text="${iStat.index + 1}"></th>
+                    <td th:text="${student.name}"></td>
+                    <td th:text="${student.age}"></td>
+                    <td th:text="${student.address}"></td>
+                    <td th:text="${student.tel}"></td>
+                    <td th:text="${student.image}"></td>
+                    <td>Xoa</td>
+                    <td>Sua</td>
+                </tr>
+            </th:block>
             </tbody>
         </table>
     </div>

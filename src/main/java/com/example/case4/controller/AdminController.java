@@ -2,6 +2,7 @@ package com.example.case4.controller;
 
 import com.example.case4.model.Coach;
 import com.example.case4.service.coach.ICoachService;
+import com.example.case4.service.student.IStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +20,13 @@ public class AdminController {
 
     @Autowired
     ICoachService coachService;
+    @Autowired
+    IStudentService studentService;
 
     @GetMapping("/user_account")
     public ModelAndView showFormUser(){
         ModelAndView modelAndView = new ModelAndView("adminAccountStudent");
+        modelAndView.addObject("listStudent",studentService.findAll());
         return modelAndView;
     }
 
