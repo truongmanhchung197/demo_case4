@@ -21,6 +21,10 @@ public class HomeController {
     public String homeAdmin(){
         return "homeAdmin";
     }
+    @GetMapping("/ministry")
+    public String homeMinistry(){
+        return "homeMinistry";
+    }
     @GetMapping("/page403")
     public String noRedirect(){
         return "noredirect";
