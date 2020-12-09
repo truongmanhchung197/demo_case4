@@ -1,10 +1,14 @@
 package com.example.case4.controller;
 
+import com.example.case4.service.classroom.IClassService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class HomeController {
+    @Autowired
+    private IClassService classService;
     @GetMapping("/")
     public String index(){
         return "home";
