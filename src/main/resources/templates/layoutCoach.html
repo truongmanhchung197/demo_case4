@@ -14,7 +14,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="../../styleHomeAdmin.css">
+    <link rel="stylesheet" href="../styleHomeAdmin.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
@@ -33,37 +33,19 @@
     <!-- Sidebar  -->
     <nav th:fragment="nav_left" id="sidebar">
         <div class="sidebar-header">
-            <img src="../../admin.png" class="rounded-circle" alt="Cinque Terre" width="100" height="100">
+            <img src="../admin.png" class="rounded-circle" alt="Cinque Terre" width="100" height="100">
             <h3>Trang Admin</h3>
         </div>
 
         <ul class="list-unstyled components">
             <p>Chức năng</p>
             <li class="active">
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Quản lý tài khoản</a>
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Danh sách lớp học</a>
                 <ul class="collapse list-unstyled" id="homeSubmenu">
-                    <li>
-                        <a href="/admin/student_account">Tài khoản học viên</a>
-                    </li>
-                    <li>
-                        <a href="/admin/coach_account">Tài khoản giảng viên</a>
-                    </li>
-                    <li>
-                        <a href="#">Tài khoản giáo vụ</a>
-                    </li>
+                    <th:block th:each="classroom:${listClass}">
+                        <li th:text="classroom.getName()"></li>
+                    </th:block>
                 </ul>
-            </li>
-            <li>
-                <a href="/admin/class_manager">Quản lý lớp</a>
-            </li>
-            <li>
-                <a href="#">Thống kê học viên</a>
-            </li>
-            <li>
-                <a href="#">Thống kê Điểm</a>
-            </li>
-            <li>
-                <a href="#">Biểu đồ điểm</a>
             </li>
         </ul>
     </nav>

@@ -5,11 +5,64 @@
     <title>Title</title>
 </head>
 <body>
+<style>
+    #addStudent {
+        background-color: blue;
+        color: white;
+        padding: 14px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+    }
+</style>
+
+<script type="text/javascript">
+    function deleteStudent(e) {
+        let idStudent = getAttribute(e);
+        $.ajax({
+            type:"DELETE",
+            url : "/admin/student_account_api/" + idStudent,
+            success: function (data){
+                deleteClassSuccessHandler();
+            }
+        })
+        
+    }
+    function deleteClassSuccessHandler() {
+        $.ajax({
+            type: "GET",
+            url: "/admin/student_account_api",
+            success: function(listStudent){
+                let content = `<table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Thứ tự</th>
+                <th scope="col">Tên</th>
+                <th scope="col">Tuổi</th>
+                <th scope="col">Địa chỉ</th>
+                <th scope="col">Số điện thoại</th>
+                <th scope="col">Lớp</th>
+                <th scope="col">Ảnh</th>
+                <th scope="col">Xoá</th>
+                <th scope="col">Sửa</th>
+            </tr>
+            </thead>
+            <tbody>`;
+                for (i = 0;i < listStudent.length;i++){
+                    content +=
+                }
+            }
+        })
+    }
+</script>
+
 <div class="wrapper">
     <nav th:replace="~{layoutAdmin :: nav_left}"></nav>
     <div id="content">
         <nav th:replace="~{layoutAdmin :: nav_top}"></nav>
-        <h1>Danh sách tài khoản học viên</h1>
+        <div style="display: inline">
+            <span><h1>Danh sách tài khoản học viên</h1></span>
+            <a id="addStudent" href="/admin/student_account/create">Thêm học viên</a>
         <table class="table">
             <thead class="thead-dark">
             <tr>
@@ -25,21 +78,26 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-            </tr>
+            <th:block>
+                <tr th:each="student,iStat : ${listStudent}">
+                    <th scope="row" th:text="${iStat.index + 1}"></th>
+                    <td th:text="${student.name}"></td>
+                    <td th:text="${student.age}"></td>
+                    <td th:text="${student.address}"></td>
+                    <td th:text="${student.tel}"></td>
+                    <td th:text="${student.classroom.name}"></td>
+                    <td>
+                        <img th:src="'../' + ${student.image}" style="width: 100px; height: 100px">
+                    </td>
+                    <td th:href="${student.id}" onclick="deleteStudent(this)">Xoa</td>
+                    <td>Sua</td>
+                </tr>
+            </th:block>
             </tbody>
         </table>
     </div>
 </div>
 <div th:replace="~{layoutAdmin :: toggle_nav}"></div>
+</div>
 </body>
 </html>

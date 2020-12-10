@@ -1,6 +1,7 @@
 package com.example.case4.service.coach;
 
 import com.example.case4.model.Coach;
+import com.example.case4.repo.ClassRepository;
 import com.example.case4.repo.CoachRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,10 @@ import java.util.Optional;
 public class CoachService implements ICoachService {
 
     @Autowired
-    CoachRepository coachRepository;
+    private CoachRepository coachRepository;
+
+    @Autowired
+    private ClassRepository classRepository;
 
     @Override
     public Iterable<Coach> findAll() {
@@ -32,4 +36,5 @@ public class CoachService implements ICoachService {
     public void remove(Long id) {
         coachRepository.deleteById(id);
     }
+
 }

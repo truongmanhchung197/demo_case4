@@ -40,10 +40,6 @@
             crossorigin="anonymous"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script type="text/javascript">
-        function showClass(e) {
-            let idClass = e.getAttribute("href");
-
-        }
 
     </script>
 </head>
@@ -57,21 +53,21 @@
             <h3>Trang Coach</h3>
         </div>
 
-        <ul class="list-unstyled components">
-            <p>Danh sách lớp học</p>
-            <div th:each="classroom:${listClass}">
-                <ul class="list-unstyled components">
-                    <li class="active">
-                        <a th:href="'#homeSubmenu'+${classroom.name}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"
-                           th:text="${classroom.getName()}"></a>
-                        <ul class="collapse list-unstyled" th:id="'homeSubmenu'+${classroom.name}">
-                            <li><a th:href="'/coach/classlist/'+${classroom.}">&ensp;&ensp;Danh sách học viên</a></li>
-                            <li><span>&ensp;&ensp;Ghi chú</span></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </ul>
+<!--        <ul class="list-unstyled components">-->
+<!--            <p>Danh sách lớp học</p>-->
+<!--            <div th:each="classroom:${listClass}">-->
+<!--                <ul class="list-unstyled components">-->
+<!--                    <li class="active">-->
+<!--                        <a th:href="'#homeSubmenu'+${classroom.name}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"-->
+<!--                           th:text="${classroom.getName()}"></a>-->
+<!--                        <ul class="collapse list-unstyled" th:id="'homeSubmenu'+${classroom.name}">-->
+<!--                            <li><span>&ensp;&ensp;Danh sách học viên</span></li>-->
+<!--                            <li><span>&ensp;&ensp;Ghi chú</span></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--        </ul>-->
     </nav>
 
     <!-- Page Content  -->
@@ -103,31 +99,21 @@
             <table class="table">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">STT</th>
+                    <th scope="col">Ảnh</th>
+                    <th scope="col">Họ tên</th>
+                    <th scope="col">SĐT</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                </tr>
+                <div th:each="student,count:${listStudent}">
+                    <td scope="row" th:text="${count.index+1}"></td>
+                    <td>
+                        <img th:src="'../'+${student.getImage()}">
+                    </td>
+                    <td th:text="${student.getName()}"></td>
+                    <td th:text="${student.getTel()}"></td>
+                </div>
                 </tbody>
             </table>
 
