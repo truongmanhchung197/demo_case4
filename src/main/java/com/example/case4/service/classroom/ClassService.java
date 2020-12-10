@@ -3,9 +3,11 @@ package com.example.case4.service.classroom;
 import com.example.case4.model.Classroom;
 import com.example.case4.repo.ClassRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class ClassService implements IClassService {
     @Autowired
     private ClassRepository classRepository;

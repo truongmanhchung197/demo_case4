@@ -20,6 +20,12 @@ public class AppUser {
     public AppUser() {
     }
 
+    public AppUser(String username, String password, AppRole role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
     public AppUser(Long id, String username, String password, AppRole role) {
         this.id = id;
         this.username = username;

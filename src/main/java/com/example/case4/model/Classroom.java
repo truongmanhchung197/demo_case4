@@ -17,13 +17,21 @@ public class Classroom {
     @OneToMany
     private List<Diary> diaryList;
 
-    public Classroom() {
-    }
-
     public Classroom(String name, Coach coach, List<Diary> diaryList) {
         this.name = name;
         this.coach = coach;
         this.diaryList = diaryList;
+    }
+
+    public Classroom(Long id, String name, Coach coach, List<Diary> diaryList) {
+        this.id = id;
+        this.name = name;
+        this.coach = coach;
+        this.diaryList = diaryList;
+    }
+
+    public Classroom() {
+
     }
 
     public String getName() {
@@ -48,5 +56,13 @@ public class Classroom {
 
     public void setDiaryList(List<Diary> diaryList) {
         this.diaryList = diaryList;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
