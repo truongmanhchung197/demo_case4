@@ -3,7 +3,9 @@ package com.example.case4.service.user;
 import com.example.case4.model.AppUser;
 import com.example.case4.repo.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -43,6 +45,14 @@ public class AppUserService implements IAppUserService, UserDetailsService {
     @Override
     public AppUser getUserByUsername(String name) {
         return appUserRepository.getAppUserByUsername(name);
+    }
+
+    @Override
+    public Long getCurrentUserId() {
+        Authentication authentication= SecurityContextHolder.getContext().getAuthentication();
+        String name = authentication.getName();
+        AppUser appUser = this.getUserByUsername(name);
+        return appUser.getId();
     }
 
 
