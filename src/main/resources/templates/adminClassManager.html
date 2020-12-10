@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layoutAdmin :: layout_head}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+    function addClass() {
+        let nameClass = $('#nameClass').val();
+        let coachClass = $('#coachClass').val();
+        let newClass = {
+            name : nameClass,
+            coach : {
+                id : coachClass
+            }
+        };
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type:"POST",
+            data: JSON.stringify(newClass),
+            //tên API
+            url:"/admin/class_manager_api",
+            //xử lý khi thành công
+            success: function (data) {
+                addClassSuccessHandler();
+            }
+        })
+        event.preventDefault();
+    };
+    function deleteClass(e) {
+        let idClass = e.getAttribute("href");
+        $.ajax ({
+            type : "DELETE",
+            url:"/admin/class_manager_api/" + idClass,
+            success : function () {
+                addClassSuccessHandler();
+            }
+        })
+        event.preventDefault();
+    }
+    function addClassSuccessHandler() {
+        $.ajax({
+            type: "GET",
+            url: "/admin/class_manager_api",
+            success: function (listClass){
+                let content = `<table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Thứ tự</th>
+                <th scope="col">Lớp</th>
+                <th scope="col">Giáo viên</th>
+                <th scope="col">Xoá</th>
+            </tr>
+            </thead>
+            <tbody>`;
+                for (let i =0; i<listClass.length;i++){
+                    content += getClass(listClass[i],i+1);
+                }
+                content += "</tbody>\n" +
+                    "        </table>"
+                document.getElementById("classList").innerHTML = content;
+            }
+        })
+    };
+    function getClass(class1,i){
+        let row = `<tr>
+                    <th scope="row">${i}</th>
+                    <td>${class1.name}</td>
+                    <td>${class1.coach.name}</td>
+                    <td href=${class1.id} onclick="deleteClass(this)">Xoa</td>
+                </tr>`;
+        return row;
+    }
+</script>
+<div class="wrapper">
+    <nav th:replace="~{layoutAdmin :: nav_left}"></nav>
+    <div id="content">
+        <nav th:replace="~{layoutAdmin :: nav_top}"></nav>
+        <h1>Danh sách lớp</h1>
+        <!-- Button trigger modal -->
+        <span><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Thêm lớp
+        </button></span>
+        <table class="table" id="classList">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Thứ tự</th>
+                <th scope="col">Lớp</th>
+                <th scope="col">Giảng viên</th>
+                <th scope="col">Xoá</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block>
+                <tr th:each="class,iStat : ${listClass}">
+                    <th scope="row" th:text="${iStat.index + 1}"></th>
+                    <td th:text="${class.name}"></td>
+                    <td th:text="${class.coach.name}"></td>
+                    <td th:href="${class.id}" onclick="deleteClass(this)">Xoa</td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thêm lớp</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" th:object="${class}">
+                        <table>
+                            <tr>
+                                <td class="modal-title">Tên lớp</td>
+                                <td><input id="nameClass" name="name" placeholder="Nhập tên lớp" th:field="*{name} "/></td>
+                            </tr>
+
+                            <tr>
+                                <td class="modal-title">Giảng viên</td>
+                                <td>
+                                    <select id="coachClass" name="coach">
+                                        <option th:each="c : ${coachs}" th:value="${c.id}" th:text="${c.name}"></option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><button type="button" class="btn btn-primary" id="createClass" data-dismiss="modal" value="Create" onclick="addClass()">Create</button></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<div th:replace="~{layoutAdmin :: toggle_nav}"></div>
+</body>
+</html>
