@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layoutStudent :: layout_head}">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-    <h3>Student</h3>
+<div class="wrapper">
+    <nav th:replace="~{layoutStudent :: nav_left}"></nav>
+    <div id="content">
+        <nav th:replace="~{layoutStudent :: nav_top}"></nav>
+        <h1>Đây là trang Student</h1>
+    </div>
+</div>
+<div th:replace="~{layoutStudent :: toggle_nav}"></div>
 </body>
 </html>

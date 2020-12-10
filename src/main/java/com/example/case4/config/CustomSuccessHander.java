@@ -46,7 +46,7 @@ public class CustomSuccessHander extends SimpleUrlAuthenticationSuccessHandler {
         if (roles.contains("ROLE_COACH")){
             url = "/coach";
         }
-        if (roles.contains(("ROLE_MINISTRY"))){
+        if (roles.contains("ROLE_MINISTRY")){
             url = "/ministry";
         }
         return url;

@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layoutAdmin :: layout_head}">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-
+<div class="wrapper">
+    <nav th:replace="~{layoutMinistry :: nav_left}"></nav>
+    <div id="content">
+        <nav th:replace="~{layoutMinistry :: nav_top}"></nav>
+        <h1>Đây là trang Ministry</h1>
+    </div>
+</div>
+<div th:replace="~{layoutMinistry :: toggle_nav}"></div>
 </body>
 </html>
