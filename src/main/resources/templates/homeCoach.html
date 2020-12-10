@@ -65,7 +65,7 @@
                         <a th:href="'#homeSubmenu'+${classroom.name}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"
                            th:text="${classroom.getName()}"></a>
                         <ul class="collapse list-unstyled" th:id="'homeSubmenu'+${classroom.name}">
-                            <li><span>&ensp;&ensp;Danh sách học viên</span></li>
+                            <li><a th:href="'/coach/classlist/'+${classroom.}">&ensp;&ensp;Danh sách học viên</a></li>
                             <li><span>&ensp;&ensp;Ghi chú</span></li>
                         </ul>
                     </li>

@@ -31,4 +31,9 @@ public class StudentService implements IStudentService{
     public void remove(Long id) {
         studentRepository.deleteById(id);
     }
+
+    @Override
+    public Iterable<Student> getListClass(Long id) {
+        return studentRepository.getAllByStatusIsTrueAndClassroom_Id(id);
+    }
 }

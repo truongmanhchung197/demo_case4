@@ -26,6 +26,7 @@ public class Classroom {
         this.diaryList = diaryList;
     }
 
+
     public String getName() {
         return name;
     }
