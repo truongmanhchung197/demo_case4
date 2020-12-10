@@ -23,10 +23,21 @@
             type:"DELETE",
             url : "/admin/student_account_api/" + idStudent,
             success: function (data){
+                deleteAppUser(e)
                 deleteClassSuccessHandler();
             }
         })
+        event.preventDefault();
         
+    }
+    function deleteAppUser(e) {
+        let id = e.getAttribute("href");
+        $.ajax({
+            type : "DELETE",
+            url : "/app_user/" + id,
+            success: function (data){
+            }
+        })
     }
     function deleteClassSuccessHandler() {
         $.ajax({
@@ -48,9 +59,10 @@
             </tr>
             </thead>
             <tbody>`;
-                for (i = 0;i < listStudent.length;i++){
-                    content +=
+                for (let i = 0;i < listStudent.length;i++){
+                    content += getStudent(listStudent[i]);
                 }
+
             }
         })
     }
@@ -63,7 +75,7 @@
         <div style="display: inline">
             <span><h1>Danh sách tài khoản học viên</h1></span>
             <a id="addStudent" href="/admin/student_account/create">Thêm học viên</a>
-        <table class="table">
+        <table class="table" id="#listStudent">
             <thead class="thead-dark">
             <tr>
                 <th scope="col">Thứ tự</th>
