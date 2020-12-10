@@ -1,5 +1,6 @@
 package com.example.case4.service.coach;
 
+import com.example.case4.model.Classroom;
 import com.example.case4.model.Coach;
 import com.example.case4.repo.ClassRepository;
 import com.example.case4.repo.CoachRepository;
@@ -35,6 +36,11 @@ public class CoachService implements ICoachService {
     @Override
     public void remove(Long id) {
         coachRepository.deleteById(id);
+    }
+
+    @Override
+    public Iterable<Classroom> showListClass(Long idCoach) {
+        return classRepository.findAllByCoach_Id(idCoach);
     }
 
 }
