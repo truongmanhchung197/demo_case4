@@ -1,7 +1,7 @@
 package com.example.case4.model;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table
@@ -9,16 +9,20 @@ public class Diary {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(length = 1000)
     private String content;
-    private Date date;
+    private LocalDate date;
+    @ManyToOne
+    private Student student;
 
     public Diary() {
     }
 
-    public Diary(Long id, String content, Date date) {
+    public Diary(Long id, String content, LocalDate date, Student student) {
         this.id = id;
         this.content = content;
         this.date = date;
+        this.student = student;
     }
 
     public Long getId() {
@@ -37,11 +41,19 @@ public class Diary {
         this.content = content;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDate() {
+        return this.date.getDayOfMonth()+"/"+this.date.getMonthValue()+"/"+this.date.getYear();
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
     }
 }
