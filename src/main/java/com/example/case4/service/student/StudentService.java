@@ -1,6 +1,7 @@
 package com.example.case4.service.student;
 
 import com.example.case4.model.Student;
+import com.example.case4.repo.MarkStudentRepository;
 import com.example.case4.repo.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,9 @@ import java.util.Optional;
 public class StudentService implements IStudentService{
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private MarkStudentRepository markStudentRepository;
 
     @Override
     public Iterable<Student> findAll() {

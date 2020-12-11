@@ -1,10 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layoutStudent :: layout_head}">
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-    <h3>Student</h3>
+<div class="wrapper">
+    <nav th:replace="~{layoutStudent :: nav_left}"></nav>
+    <div id="content">
+        <nav th:replace="~{layoutStudent :: nav_top}"></nav>
+        <div>
+            <table class="table" border="1">
+                <thead class="thead-dark">
+                <tr>
+                    <th colspan="2"><h4><center>THÔNG TIN HỌC VIÊN</center></h4></th>
+                </tr>
+                </thead>
+                <tbody>
+                <div th:object="${student}">
+                    <tr>
+                        <td width="40%"><center><img th:src="../../${students.getImage()}" width="300px" height="300px"></center></td>
+                        <td>
+                            <span><strong>Họ và tên</strong></span>
+                            <p th:text="${student.getName()}"></p>
+                            <span><strong>Tuổi</strong></span>
+                            <p th:text="${student.getAge()}"></p>
+                            <span><strong>Giới tính</strong></span>
+                            <p th:text="${student.getGender()}"></p>
+                            <span><strong>Số điện thoại</strong></span>
+                            <p th:text="${student.getTel()}"></p>
+                            <span><strong>Địa chỉ</strong></span>
+                            <p th:text="${student.getAddress()}"></p>
+                        </td>
+                    </tr>
+                </div>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+<div th:replace="~{layoutStudent :: toggle_nav}"></div>
 </body>
 </html>
