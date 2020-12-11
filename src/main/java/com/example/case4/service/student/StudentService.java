@@ -41,8 +41,4 @@ public class StudentService implements IStudentService{
         return studentRepository.getAllByStatusIsTrueAndClassroom_Id(id);
     }
 
-    @Override
-    public Student findStudentById(Long id) {
-       return studentRepository.getOne(id);
-    }
 }
