@@ -30,6 +30,7 @@ public class CoachController {
     public ModelAndView showListClass(@PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView("classroom");
         modelAndView.addObject("listStudent", studentService.getListClass(id));
+        modelAndView.addObject("listClass",coachService.showListClass(appUserService.getCurrentUserId()));
         Optional<Classroom> classroom = classService.findById(id);
         modelAndView.addObject("classname",classroom.get().getName());
         return modelAndView;

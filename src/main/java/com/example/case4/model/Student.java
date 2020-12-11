@@ -15,6 +15,7 @@ public class Student {
     private Integer age;
     private String address;
     private boolean status;
+    private String gender;
     private String tel;
     private String image;
 
@@ -30,14 +31,16 @@ public class Student {
     public Student() {
     }
 
-    public Student(Long id, String name, Integer age, String address, boolean status, String tel, String image, Classroom classroom, List<Diary> diaryList) {
+    public Student(Long id, String name, Integer age, String address, boolean status, String gender, String tel, String image, MultipartFile avatar, Classroom classroom, List<Diary> diaryList) {
         this.id = id;
         this.name = name;
         this.age = age;
         this.address = address;
         this.status = status;
+        this.gender = gender;
         this.tel = tel;
         this.image = image;
+        this.avatar = avatar;
         this.classroom = classroom;
         this.diaryList = diaryList;
     }
@@ -120,5 +123,13 @@ public class Student {
 
     public void setAvatar(MultipartFile avatar) {
         this.avatar = avatar;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }
