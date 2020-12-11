@@ -10,18 +10,15 @@ public class Classroom {
     private String name;
     @ManyToOne
     private Coach coach;
-    @OneToMany
-    private List<Diary> diaryList;
-    public Classroom(String name, Coach coach, List<Diary> diaryList) {
+
+    public Classroom(String name, Coach coach) {
         this.name = name;
         this.coach = coach;
-        this.diaryList = diaryList;
     }
-    public Classroom(Long id, String name, Coach coach, List<Diary> diaryList) {
+    public Classroom(Long id, String name, Coach coach) {
         this.id = id;
         this.name = name;
         this.coach = coach;
-        this.diaryList = diaryList;
     }
     public Classroom() {
     }
@@ -36,12 +33,6 @@ public class Classroom {
     }
     public void setCoach(Coach coach) {
         this.coach = coach;
-    }
-    public List<Diary> getDiaryList() {
-        return diaryList;
-    }
-    public void setDiaryList(List<Diary> diaryList) {
-        this.diaryList = diaryList;
     }
     public Long getId() {
         return id;

@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table
-public class Diary {
+public class DiaryStudent {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -15,10 +15,11 @@ public class Diary {
     @ManyToOne
     private Student student;
 
-    public Diary() {
+
+    public DiaryStudent() {
     }
 
-    public Diary(Long id, String content, LocalDate date, Student student) {
+    public DiaryStudent(Long id, String content, LocalDate date, Student student) {
         this.id = id;
         this.content = content;
         this.date = date;

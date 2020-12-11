@@ -1,7 +1,7 @@
 package com.example.case4.controller;
 
 import com.example.case4.model.Classroom;
-import com.example.case4.model.Diary;
+import com.example.case4.model.DiaryStudent;
 import com.example.case4.model.Student;
 import com.example.case4.service.classroom.IClassService;
 import com.example.case4.service.coach.ICoachService;
@@ -12,12 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -51,21 +47,18 @@ public class CoachController {
         modelAndView.addObject("listClass", coachService.showListClass(idStudent));
         Optional<Student> student = studentService.findById(id);
         modelAndView.addObject("student", student.get());
+
         modelAndView.addObject("listMark", markStudentService.showListMark(id));
-        modelAndView.addObject("diary", new Diary());
+        modelAndView.addObject("diary", new DiaryStudent());
         return modelAndView;
     }
 
     @PostMapping("/student/{id}")
-    public void saveDiary(@ModelAttribute Diary diary, @PathVariable Long id, HttpServletResponse response) {
+    public void saveDiary(@ModelAttribute DiaryStudent diary, @PathVariable Long id, HttpServletResponse response) {
         diary.setDate(LocalDate.now());
         Student student = studentService.findById(id).get();
         studentService.save(student);
-        try {
-            response.sendRedirect("/coach/student/"+id+"#3");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        response.sendRedirect("/coach/student/"+id+"#3");
     }
 
 }
