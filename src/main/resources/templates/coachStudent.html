@@ -16,7 +16,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
           integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
+
     <link rel="stylesheet" href="../../styleHomeAdmin.css">
+    <link rel="stylesheet" href="../../coachStudent.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
@@ -97,34 +99,85 @@
         </nav>
         <div>
             <a href="/coach"><span style="color: blue"><u>Back to home coach</u></span></a>
-            <table class="table" border="1">
-                <thead class="thead-dark">
-                <tr>
-                    <th colspan="2"><h4><center>THÔNG TIN HỌC VIÊN</center></h4></th>
-                </tr>
-                </thead>
-                <tbody>
-                <div th:object="${student}">
-                    <tr>
-                        <td width="40%"><center><img th:src="'../../'+${student.getImage()}" width="300px" height="300px"></center></td>
-                       <td>
-                           <span><strong>Họ và tên</strong></span>
-                           <p th:text="${student.getName()}"></p>
-                           <span><strong>Tuổi</strong></span>
-                           <p th:text="${student.getAge()}"></p>
-                           <span><strong>Giới tính</strong></span>
-                           <p th:text="${student.getGender()}"></p>
-                           <span><strong>Số điện thoại</strong></span>
-                           <p th:text="${student.getTel()}"></p>
-                           <span><strong>Địa chỉ</strong></span>
-                           <p th:text="${student.getAddress()}"></p>
-                       </td>
-                    </tr>
-                </div>
-                </tbody>
-            </table>
+
 
         </div>
+        <div id="exTab2" class="container">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <h5><a href="#1" data-toggle="tab"><span><strong><i>&ensp;Thông tin học viên &ensp;</i></strong></span></a></h5>
+                </li>
+                <li><h5><a href="#2" data-toggle="tab"><span><strong><i>&ensp;Bảng điểm &ensp;</i></strong></span></a></h5>
+                </li>
+                <li><h5><a href="#3" data-toggle="tab"><span><strong><i>&ensp;Nhật ký &ensp;</i></strong></span></a></h5>
+                </li>
+            </ul>
+
+            <div class="tab-content ">
+                <div class="tab-pane active" id="1">
+                    <table class="table" border="1">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th colspan="2"><h4><center>THÔNG TIN HỌC VIÊN</center></h4></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <div th:object="${student}">
+                            <tr>
+                                <td width="40%"><center><img th:src="'../../'+${student.getImage()}" width="300px" height="300px"></center></td>
+                                <td>
+                                    <span><strong>Họ và tên</strong></span>
+                                    <p th:text="${student.getName()}"></p>
+                                    <span><strong>Tuổi</strong></span>
+                                    <p th:text="${student.getAge()}"></p>
+                                    <span><strong>Giới tính</strong></span>
+                                    <p th:text="${student.getGender()}"></p>
+                                    <span><strong>Số điện thoại</strong></span>
+                                    <p th:text="${student.getTel()}"></p>
+                                    <span><strong>Địa chỉ</strong></span>
+                                    <p th:text="${student.getAddress()}"></p>
+                                </td>
+                            </tr>
+                        </div>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div class="tab-pane" id="2">
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th colspan="2"><h4><center>Bảng điểm</center></h4></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Jacob</td>
+                            <td>Thornton</td>
+                            <td>@fat</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Larry</td>
+                            <td>the Bird</td>
+                            <td>@twitter</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="3">
+                    <h3>add clearfix to tab-content (see the css)</h3>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 <script th:fragment="toggle_nav" type="text/javascript">
