@@ -1,14 +1,14 @@
-package com.example.case4.service.diary;
+package com.example.case4.service.diaryStudent;
 
 import com.example.case4.model.DiaryStudent;
-import com.example.case4.repo.DiaryRepository;
+import com.example.case4.repo.DiaryStudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
-public class DiaryService implements IDiaryService{
+public class DiaryStudentService implements IDiaryStudentService {
     @Autowired
-    private DiaryRepository diaryRepository;
+    private DiaryStudentRepository diaryRepository;
     @Override
     public Iterable<DiaryStudent> findAll() {
         return diaryRepository.findAll();
