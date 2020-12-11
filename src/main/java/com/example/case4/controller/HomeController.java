@@ -27,13 +27,11 @@ public class HomeController {
     }
     @GetMapping("/student")
     public ModelAndView homeStudent(){
-        ModelAndView modelAndView = new ModelAndView("homeStudent");
+            ModelAndView modelAndView = new ModelAndView("homeStudent");
         Long id = appUserService.getCurrentUserId();
-        Optional<Student> student = studentService.findById(id);
-        if(!student.isPresent()){
-            return new ModelAndView("noredirect");
-        }
-        modelAndView.addObject("student",student.get());
+        Optional<Student> studentOptional = studentService.findById(id);
+        Student student=studentOptional.get();
+        modelAndView.addObject("student",student);
         return modelAndView;
     }
     @GetMapping("/coach")
