@@ -30,9 +30,6 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView("homeStudent");
         Long id = appUserService.getCurrentUserId();
         Optional<Student> student = studentService.findById(id);
-        if(!student.isPresent()){
-            return new ModelAndView("noredirect");
-        }
         modelAndView.addObject("student",student.get());
         return modelAndView;
     }

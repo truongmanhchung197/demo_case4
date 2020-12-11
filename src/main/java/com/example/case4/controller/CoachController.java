@@ -4,6 +4,7 @@ import com.example.case4.model.Classroom;
 import com.example.case4.model.Student;
 import com.example.case4.service.classroom.IClassService;
 import com.example.case4.service.coach.ICoachService;
+import com.example.case4.service.markstudent.IMarkStudentService;
 import com.example.case4.service.student.IStudentService;
 import com.example.case4.service.user.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,8 @@ public class CoachController {
     private IStudentService studentService;
     @Autowired
     private IClassService classService;
+    @Autowired
+    private IMarkStudentService markStudentService;
 
     @GetMapping("/classlist/{id}")
     public ModelAndView showListClass(@PathVariable Long id){
@@ -39,9 +42,11 @@ public class CoachController {
     @GetMapping("/student/{id}")
     public ModelAndView showInfoStudent(@PathVariable Long id){
         ModelAndView modelAndView = new ModelAndView("coachStudent");
-        modelAndView.addObject("listClass",coachService.showListClass(appUserService.getCurrentUserId()));
+        Long idStudent = appUserService.getCurrentUserId();
+        modelAndView.addObject("listClass",coachService.showListClass(idStudent));
         Optional<Student> student = studentService.findById(id);
         modelAndView.addObject("student",student.get());
+        modelAndView.addObject("listMark",markStudentService.showListMark(id));
         return modelAndView;
     }
 
