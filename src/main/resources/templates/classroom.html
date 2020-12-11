@@ -53,21 +53,21 @@
             <h3>Trang Coach</h3>
         </div>
 
-        <!--        <ul class="list-unstyled components">-->
-        <!--            <p>Danh sách lớp học</p>-->
-        <!--            <div th:each="classroom:${listClass}">-->
-        <!--                <ul class="list-unstyled components">-->
-        <!--                    <li class="active">-->
-        <!--                        <a th:href="'#homeSubmenu'+${classroom.name}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"-->
-        <!--                           th:text="${classroom.getName()}"></a>-->
-        <!--                        <ul class="collapse list-unstyled" th:id="'homeSubmenu'+${classroom.name}">-->
-        <!--                            <li><span>&ensp;&ensp;Danh sách học viên</span></li>-->
-        <!--                            <li><span>&ensp;&ensp;Ghi chú</span></li>-->
-        <!--                        </ul>-->
-        <!--                    </li>-->
-        <!--                </ul>-->
-        <!--            </div>-->
-        <!--        </ul>-->
+                <ul class="list-unstyled components">
+                    <p>Danh sách lớp học</p>
+                    <div th:each="classroom:${listClass}">
+                        <ul class="list-unstyled components">
+                            <li class="active">
+                                <a th:href="'#homeSubmenu'+${classroom.name}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"
+                                   th:text="${classroom.getName()}"></a>
+                                <ul class="collapse list-unstyled" th:id="'homeSubmenu'+${classroom.name}">
+                                    <li><span>&ensp;&ensp;Danh sách học viên</span></li>
+                                    <li><span>&ensp;&ensp;Ghi chú</span></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </ul>
     </nav>
 
     <!-- Page Content  -->
