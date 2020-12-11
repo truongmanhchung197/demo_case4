@@ -27,10 +27,11 @@ public class HomeController {
     }
     @GetMapping("/student")
     public ModelAndView homeStudent(){
-        ModelAndView modelAndView = new ModelAndView("homeStudent");
-        Long id = appUserService.getCurrentUserId();
-        Optional<Student> student = studentService.findById(id);
-        modelAndView.addObject("student",student.get());
+            ModelAndView modelAndView = new ModelAndView("homeStudent");
+        //Long id = appUserService.getCurrentUserId();
+        Optional<Student> studentOptional = studentService.findById(appUserService.getCurrentUserId());
+        Student student=studentOptional.get();
+        modelAndView.addObject("student",student);
         return modelAndView;
     }
     @GetMapping("/coach")
