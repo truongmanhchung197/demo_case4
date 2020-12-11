@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
           integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="../styleHomeAdmin.css">
+    <link rel="stylesheet" href="../../styleHomeAdmin.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
@@ -49,25 +49,25 @@
     <!-- Sidebar  -->
     <nav th:fragment="nav_left" id="sidebar">
         <div class="sidebar-header">
-            <img src="../teacher2.png" class="rounded-circle" alt="Cinque Terre" width="100" height="100">
+            <img src="../../teacher2.png" class="rounded-circle" alt="Cinque Terre" width="100" height="100">
             <h3>Trang Coach</h3>
         </div>
 
-<!--        <ul class="list-unstyled components">-->
-<!--            <p>Danh sách lớp học</p>-->
-<!--            <div th:each="classroom:${listClass}">-->
-<!--                <ul class="list-unstyled components">-->
-<!--                    <li class="active">-->
-<!--                        <a th:href="'#homeSubmenu'+${classroom.name}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"-->
-<!--                           th:text="${classroom.getName()}"></a>-->
-<!--                        <ul class="collapse list-unstyled" th:id="'homeSubmenu'+${classroom.name}">-->
-<!--                            <li><span>&ensp;&ensp;Danh sách học viên</span></li>-->
-<!--                            <li><span>&ensp;&ensp;Ghi chú</span></li>-->
-<!--                        </ul>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--            </div>-->
-<!--        </ul>-->
+        <!--        <ul class="list-unstyled components">-->
+        <!--            <p>Danh sách lớp học</p>-->
+        <!--            <div th:each="classroom:${listClass}">-->
+        <!--                <ul class="list-unstyled components">-->
+        <!--                    <li class="active">-->
+        <!--                        <a th:href="'#homeSubmenu'+${classroom.name}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"-->
+        <!--                           th:text="${classroom.getName()}"></a>-->
+        <!--                        <ul class="collapse list-unstyled" th:id="'homeSubmenu'+${classroom.name}">-->
+        <!--                            <li><span>&ensp;&ensp;Danh sách học viên</span></li>-->
+        <!--                            <li><span>&ensp;&ensp;Ghi chú</span></li>-->
+        <!--                        </ul>-->
+        <!--                    </li>-->
+        <!--                </ul>-->
+        <!--            </div>-->
+        <!--        </ul>-->
     </nav>
 
     <!-- Page Content  -->
@@ -96,6 +96,7 @@
             </div>
         </nav>
         <div>
+            <h3 th:text="'Danh sách học viên lớp '+${classname}"></h3>
             <table class="table">
                 <thead class="thead-dark">
                 <tr>
@@ -107,12 +108,14 @@
                 </thead>
                 <tbody>
                 <div th:each="student,count:${listStudent}">
-                    <td scope="row" th:text="${count.index+1}"></td>
-                    <td>
-                        <img th:src="'../'+${student.getImage()}">
-                    </td>
-                    <td th:text="${student.getName()}"></td>
-                    <td th:text="${student.getTel()}"></td>
+                    <tr>
+                        <td scope="row" th:text="${count.index+1}"></td>
+                        <td>
+                            <img th:src="'../../'+${student.getImage()}" width="200px" height="200px">
+                        </td>
+                        <td th:text="${student.getName()}"></td>
+                        <td th:text="${student.getTel()}"></td>
+                    </tr>
                 </div>
                 </tbody>
             </table>
