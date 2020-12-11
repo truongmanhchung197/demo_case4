@@ -1,6 +1,7 @@
 package com.example.case4.controller;
 
 import com.example.case4.model.Classroom;
+import com.example.case4.model.Student;
 import com.example.case4.service.classroom.IClassService;
 import com.example.case4.service.coach.ICoachService;
 import com.example.case4.service.student.IStudentService;
@@ -33,6 +34,14 @@ public class CoachController {
         modelAndView.addObject("listClass",coachService.showListClass(appUserService.getCurrentUserId()));
         Optional<Classroom> classroom = classService.findById(id);
         modelAndView.addObject("classname",classroom.get().getName());
+        return modelAndView;
+    }
+    @GetMapping("/student/{id}")
+    public ModelAndView showInfoStudent(@PathVariable Long id){
+        ModelAndView modelAndView = new ModelAndView("coachStudent");
+        modelAndView.addObject("listClass",coachService.showListClass(appUserService.getCurrentUserId()));
+        Optional<Student> student = studentService.findById(id);
+        modelAndView.addObject("student",student.get());
         return modelAndView;
     }
 
