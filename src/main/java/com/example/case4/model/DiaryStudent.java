@@ -43,7 +43,7 @@ public class DiaryStudent {
     }
 
     public String getDate() {
-        return this.date.getDayOfMonth()+"/"+this.date.getMonthValue()+"/"+this.date.getYear();
+        return this.date.getDayOfMonth()+"-"+this.date.getMonthValue()+"-"+this.date.getYear();
     }
 
     public void setDate(LocalDate date) {

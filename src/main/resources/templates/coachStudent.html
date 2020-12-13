@@ -146,10 +146,11 @@
                     </table>
                 </div>
                 <div class="tab-pane" id="3">
+                    <center><h4>Viết nhật ký</h4></center>
                     <form th:object="${diary}" th:method="post" th:href="'/coach/student'+${student.getId()}">
                         <fieldset>
-                            <textarea rows="10" cols="120" th:field="*{content}" name="content"></textarea>
-                            <center><input type="submit" value="Thêm nhật ký"></center>
+                            <textarea style="min-height: 200px" th:field="*{content}" name="content"></textarea>
+                            <center><input type="submit" value="Thêm"></center>
                         </fieldset>
                     </form>
                     <table class="table">

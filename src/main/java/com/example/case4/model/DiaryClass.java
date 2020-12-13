@@ -9,7 +9,7 @@ public class DiaryClass {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Column
+    @Column(length = 1000)
     private String content;
     private LocalDate date;
     @ManyToOne
@@ -41,8 +41,8 @@ public class DiaryClass {
         this.content = content;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public String getDate() {
+        return this.date.getDayOfMonth()+"-"+this.date.getMonthValue()+"-"+this.date.getYear();
     }
 
     public void setDate(LocalDate date) {
