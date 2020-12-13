@@ -4,7 +4,6 @@ package com.example.case4.model;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table
@@ -25,13 +24,10 @@ public class Student {
     @ManyToOne
     private Classroom classroom;
 
-    @OneToMany
-    private List<Diary> diaryList;
-
     public Student() {
     }
 
-    public Student(Long id, String name, Integer age, String address, boolean status, String gender, String tel, String image, MultipartFile avatar, Classroom classroom, List<Diary> diaryList) {
+    public Student(Long id, String name, Integer age, String address, boolean status, String gender, String tel, String image, MultipartFile avatar, Classroom classroom) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -42,7 +38,6 @@ public class Student {
         this.image = image;
         this.avatar = avatar;
         this.classroom = classroom;
-        this.diaryList = diaryList;
     }
 
     public Long getId() {
@@ -99,14 +94,6 @@ public class Student {
 
     public void setClassroom(Classroom classroom) {
         this.classroom = classroom;
-    }
-
-    public List<Diary> getDiaryList() {
-        return diaryList;
-    }
-
-    public void setDiaryList(List<Diary> diaryList) {
-        this.diaryList = diaryList;
     }
 
     public String getImage() {
