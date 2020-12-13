@@ -9,7 +9,75 @@
     <nav th:replace="~{layoutMinistry :: nav_left}"></nav>
     <div id="content">
         <nav th:replace="~{layoutMinistry :: nav_top}"></nav>
-        <h1>Đây là trang Ministry</h1>
+        <ul class="list-unstyled components">
+            <p>Danh sách lớp học</p>
+            <div th:each="classroom:${listClass}" >
+
+            </div>
+        </ul>
+<!--        <div id="exTab2" class="container">-->
+
+<!--            <ul class="nav nav-tabs">-->
+<!--                <li class="active">-->
+<!--                    <h5><a href="#1" data-toggle="tab"><span><strong><i>&ensp;Thông tin học viên &ensp;</i></strong></span></a></h5>-->
+<!--                </li>-->
+<!--                <li><h5><a href="#2" data-toggle="tab"><span><strong><i>&ensp;Bảng điểm </i></strong></span></a></h5>-->
+<!--            </ul>-->
+
+<!--            <div class="tab-content ">-->
+<!--                <div class="tab-pane active" id="1">-->
+<!--                    <table class="table" border="1">-->
+<!--                        <thead class="thead-dark">-->
+<!--                        <tr>-->
+<!--                            <th colspan="2"><h4><center>THÔNG TIN HỌC VIÊN</center></h4></th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        <div th:object="${student}">-->
+<!--                            <tr>-->
+<!--                                <td width="40%"><center><img th:src="'../../'+${student.getImage()}" width="300px" height="300px"></center></td>-->
+<!--                                <td>-->
+<!--                                    <span><strong>Họ và tên</strong></span>-->
+<!--                                    <p th:text="${student.getName()}"></p>-->
+<!--                                    <span><strong>Tuổi</strong></span>-->
+<!--                                    <p th:text="${student.getAge()}"></p>-->
+<!--                                    <span><strong>Giới tính</strong></span>-->
+<!--                                    <p th:text="${student.getGender()}"></p>-->
+<!--                                    <span><strong>Số điện thoại</strong></span>-->
+<!--                                    <p th:text="${student.getTel()}"></p>-->
+<!--                                    <span><strong>Địa chỉ</strong></span>-->
+<!--                                    <p th:text="${student.getAddress()}"></p>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </div>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+
+<!--                </div>-->
+<!--                <div class="tab-pane" id="2">-->
+<!--                    <table class="table">-->
+<!--                        <thead class="thead-dark">-->
+<!--                        <tr>-->
+<!--                            <th scope="col">STT</th>-->
+<!--                            <th scope="col">Module</th>-->
+<!--                            <th scope="col"><center>Điểm lý thuyết</center></th>-->
+<!--                            <th scope="col"><center>Điểm thực hành</center></th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody>-->
+<!--                        <th:block th:each="mark,count:${listMark}">-->
+<!--                            <tr>-->
+<!--                                <th scope="row" th:text="${count.index+1}"></th>-->
+<!--                                <td th:text="${mark.getModule().getName()}"></td>-->
+<!--                                <td><center th:text="${mark.getTheory_point()}"></center></td>-->
+<!--                                <td><center th:text="${mark.getPractice_point()}"></center></td>-->
+<!--                            </tr>-->
+<!--                        </th:block>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 </div>
 <div th:replace="~{layoutMinistry :: toggle_nav}"></div>
