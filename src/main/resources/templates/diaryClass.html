@@ -17,13 +17,13 @@
         </nav>
         <div>
             <center><h4>Viết nhật ký</h4></center>
-            <form th:object="${diary}" th:method="post" th:href="'/coach/diary/'+${idClass}">
+            <form th:object="${newDiary}" th:method="post" th:action="@{'/coach/diary/'+${idClass}}">
                 <fieldset>
                     <textarea style="min-height: 200px" th:field="*{content}" name="content"></textarea>
                     <center><input type="submit" value="Thêm"></center>
                 </fieldset>
             </form>
-            <table class="table">
+            <table class="table" id="listDiary">
                 <thead class="thead-dark">
                 <tr>
                     <th scope="col" width="10%">STT</th>
@@ -32,6 +32,9 @@
                     </th>
                     <th scope="col">
                         <center>Nội dung</center>
+                    </th>
+                    <th scope="col">
+                        <center>Sửa</center>
                     </th>
                 </tr>
                 </thead>
@@ -43,6 +46,40 @@
                             <center th:text="${diary.getDate()}"></center>
                         </td>
                         <td th:text="${diary.getContent()}"></td>
+                        <td>
+                            <button type="button" class="btn btn-info btn-lg" data-toggle="modal"
+                                    th:attr="data-target='#'+${diary.getId}">Edit
+                            </button>
+
+
+                            <div class="modal fade" th:attr="id=${diary.getId()}" role="dialog">
+                                <div class="modal-dialog">
+
+                                    <!-- Modal content-->
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;
+                                            </button>
+                                            <h4 class="modal-title">Sửa nhật ký</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form th:object="${newDiary}"
+                                                  th:action="@{'/coach/diary/edit/'+${diary.getId()}}"
+                                                  th:method="post">
+                                                <textarea name="content"
+                                                          style="min-height: 200px;min-width: 450px"
+                                                          th:text="${diary.getContent()}"></textarea>
+                                                <br/>
+                                                <button type="submit" class="btn btn-info btn-lg">Edit</button>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 </th:block>
                 </tbody>
