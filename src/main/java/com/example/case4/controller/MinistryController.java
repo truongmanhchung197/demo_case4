@@ -31,23 +31,19 @@ public class MinistryController {
     @Autowired
     private IMarkStudentService markStudentService;
 
-    @GetMapping("/classlist/{id}")
-    public ModelAndView showListClass(@PathVariable Long id){
+    @GetMapping("/classlist")
+    public ModelAndView showListClass(){
         ModelAndView modelAndView = new ModelAndView("classroom");
-        modelAndView.addObject("listStudent", studentService.getListClass(id));
-        modelAndView.addObject("listClass",ministryService.findAll());
-        Iterable<Classroom> classroom = classService.findAll();
-        modelAndView.addObject("classname",classroom);
+        Long id = appUserService.getCurrentUserId();
+        modelAndView.addObject("listClass",classService.findAll());
         return modelAndView;
     }
-//    @GetMapping("/student/{id}")
-//    public ModelAndView showInfoStudent(@PathVariable Long id){
-//        ModelAndView modelAndView = new ModelAndView("homeMinistry");
-//        Long idStudent = appUserService.getCurrentUserId();
-//        modelAndView.addObject("listClass",ministryService.findAll());
-//        Optional<Student> student = studentService.findById(id);
-//        modelAndView.addObject("student",student.get());
-//        modelAndView.addObject("listMark",markStudentService.showListMark(id));
+//    @GetMapping("/classlist/{id}")
+//    public ModelAndView showStudent(@PathVariable Long id){
+//        ModelAndView modelAndView = new ModelAndView("listStudent");
+//        modelAndView.addObject("listClass", classService.findById(id));
+//        Optional<Student>student=studentService.findById(id);
+//        modelAndView.addObject("student", student.get());
 //        return modelAndView;
 //    }
 }
