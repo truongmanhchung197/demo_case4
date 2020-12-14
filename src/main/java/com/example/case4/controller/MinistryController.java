@@ -1,6 +1,7 @@
 package com.example.case4.controller;
 
 import com.example.case4.model.Classroom;
+import com.example.case4.model.Mark;
 import com.example.case4.model.Student;
 import com.example.case4.service.classroom.IClassService;
 import com.example.case4.service.coach.ICoachService;
@@ -39,6 +40,7 @@ public class MinistryController {
     @GetMapping("/classlist/{id}")
     public ModelAndView showListStudent(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("listStudent");
+        modelAndView.addObject("listClass", classService.findAll());
         Iterable<Student> listStudent = studentService.getListClass(id);
         modelAndView.addObject("listStudent", listStudent);
         Optional<Classroom> classroom = classService.findById(id);
@@ -49,9 +51,18 @@ public class MinistryController {
     @GetMapping("/student/{id}")
     public ModelAndView showInfoStudent(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("infoStudent");
+        Iterable<Mark> listMark= markStudentService.showListMark(id);
+        modelAndView.addObject("listMark",listMark);
         Optional<Student> student = studentService.findById(id);
         modelAndView.addObject("student", student.get());
         return modelAndView;
     }
 
+    @GetMapping("/student/edit/{id}")
+    public ModelAndView editMark(@PathVariable Long id){
+        ModelAndView modelAndView = new ModelAndView("editMark");
+        Optional<Mark> mark = markStudentService.findById(id);
+        modelAndView.addObject("mark",mark.get());
+        return modelAndView;
+    }
 }

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layoutAdmin2 :: layout_head}">
+    <meta charset="UTF-8">
+    <title>Giáo vụ</title>
+</head>
+
+<body>
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar" th:fragment="nav_left">
+        <div class="sidebar-header">
+            <a href="/coach"><img src="../ministry.png" class="rounded-circle" alt="Cinque Terre" width="100" height="100"></a>
+            <h3>Trang Ministry</h3>
+        </div>
+
+    </nav>
+
+
+    <!-- Page Content  -->
+    <div id="content">
+
+        <nav th:replace="~{layoutAdmin2 :: nav_top}">
+
+        </nav>
+        <div>
+            <form method="post" th:object="${mark}" enctype="multipart/form-data">
+                <table>
+                    <tr>
+                        <td class="modal-title">Điểm lý thuyết</td>
+                        <td><input name="theory_point" th:value="${mark.getTheory_point()}"  placeholder="Nhập điểm lý thuyết"></td>
+                    </tr>
+                    <tr>
+                        <td class="modal-title">Điểm thực hành</td>
+                        <td><input name="practice_point" th:value="${mark.getPractice_point()}" placeholder="Nhập điểm thực hành"/></td>
+                    </tr>
+                    <tr>
+                        <td><input type="submit" class="btn btn-primary"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+
+    </div>
+</div>
+<div th:replace="~{layoutAdmin2 :: toggle_nav}"></div>
+</body>
+
+</html>

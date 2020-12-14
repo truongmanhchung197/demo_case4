@@ -28,6 +28,14 @@ public class Mark {
         this.practice_point = practice_point;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Student getStudent() {
         return student;
     }

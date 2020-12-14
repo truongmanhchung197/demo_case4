@@ -37,38 +37,33 @@
                 </tbody>
             </table>
         </div>
-        <div class="tab-pane active" id="1">
-            <table class="table" border="1">
+        <div class="tab-pane" id="2">
+            <table class="table">
                 <thead class="thead-dark">
                 <tr>
-                    <th colspan="4"><h4><center>Bảng điểm</center></h4></th>
-                </tr>
-                <tr>
-                    <td><strong>STT</strong></td>
-                    <td><strong>Module</strong></td>
-                    <td><strong>Điểm lý thuyết</strong></td>
-                    <td><strong>Điểm thực hành</strong></td>
+                    <th scope="col">STT</th>
+                    <th scope="col">Module</th>
+                    <th scope="col">
+                        <center>Điểm lý thuyết</center>
+                    </th>
+                    <th scope="col">
+                        <center>Điểm thực hành</center>
+                    </th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Module 1</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Moduel 2</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Module 3</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                </tr>
+                <th:block th:each="mark,count:${listMark}">
+                    <tr>
+                        <th scope="row" th:text="${count.index+1}"></th>
+                        <td th:text="${mark.getModule().getName()}"></td>
+                        <td>
+                            <center th:text="${mark.getTheory_point()}"></center>
+                        </td>
+                        <td>
+                            <center th:text="${mark.getPractice_point()}"></center>
+                        </td>
+                    </tr>
+                </th:block>
                 </tbody>
             </table>
         </div>
