@@ -19,7 +19,7 @@
             <div th:each="classroom:${listClass}">
                 <ul class="list-unstyled components">
                     <li class="active">
-                        <h4><a th:href="@{'/ministry/classlist/'+${classroom.getId()}}" data-toggle="collapse" aria-expanded="false"
+                        <h4><a th:href="@{'/ministry/classlist/'+${classroom.getId()}}"
                                th:text="${classroom.getName()}"></a></h4>
                     </li>
                 </ul>

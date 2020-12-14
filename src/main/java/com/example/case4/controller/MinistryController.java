@@ -37,10 +37,21 @@ public class MinistryController {
     }
 
     @GetMapping("/classlist/{id}")
-    public ModelAndView showStudent(@PathVariable Long id) {
+    public ModelAndView showListStudent(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("listStudent");
         Iterable<Student> listStudent = studentService.getListClass(id);
         modelAndView.addObject("listStudent", listStudent);
+        Optional<Classroom> classroom = classService.findById(id);
+        modelAndView.addObject("classname", classroom.get().getName());
         return modelAndView;
     }
+
+    @GetMapping("/student/{id}")
+    public ModelAndView showInfoStudent(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("infoStudent");
+        Optional<Student> student = studentService.findById(id);
+        modelAndView.addObject("student", student.get());
+        return modelAndView;
+    }
+
 }

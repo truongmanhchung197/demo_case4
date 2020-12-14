@@ -58,31 +58,68 @@
         <nav th:replace="~{layoutAdmin :: nav_top}">
 
         </nav>
-        <div>
-            <h3 th:text="'Danh sách học viên lớp '+${classname}"></h3>
-            <table class="table">
+        <div class="tab-pane active" id="1">
+            <table class="table" border="1">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">STT</th>
-                    <th scope="col">Ảnh</th>
-                    <th scope="col">Họ tên</th>
-                    <th scope="col">SĐT</th>
+                    <th colspan="2"><h4><center>THÔNG TIN HỌC VIÊN</center></h4></th>
                 </tr>
                 </thead>
                 <tbody>
-                <div th:each="student,count:${listStudent}">
+                <div th:object="${student}">
                     <tr>
-                        <td scope="row" th:text="${count.index+1}"></td>
+                        <td width="40%"><center><img th:src="'../../'+${student.getImage()}" width="300px" height="300px"></center></td>
                         <td>
-                            <img th:src="'../../'+${student.getImage()}" width="200px" height="200px">
+                            <span><strong>Họ và tên</strong></span>
+                            <p th:text="${student.getName()}"></p>
+                            <span><strong>Tuổi</strong></span>
+                            <p th:text="${student.getAge()}"></p>
+                            <span><strong>Giới tính</strong></span>
+                            <p th:text="${student.getGender()}"></p>
+                            <span><strong>Số điện thoại</strong></span>
+                            <p th:text="${student.getTel()}"></p>
+                            <span><strong>Địa chỉ</strong></span>
+                            <p th:text="${student.getAddress()}"></p>
                         </td>
-                        <td><a th:href="'/ministry/student/'+${student.getId()}" th:text="${student.getName()}"></a></td>
-                        <td th:text="${student.getTel()}"></td>
                     </tr>
                 </div>
                 </tbody>
             </table>
-
+        </div>
+        <div class="tab-pane active" id="1">
+            <table class="table" border="1">
+                <thead class="thead-dark">
+                <tr>
+                    <th colspan="4"><h4><center>Bảng điểm</center></h4></th>
+                </tr>
+                <tr>
+                    <td><strong>STT</strong></td>
+                    <td><strong>Module</strong></td>
+                    <td><strong>Điểm lý thuyết</strong></td>
+                    <td><strong>Điểm thực hành</strong></td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Module 1</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Moduel 2</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Module 3</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
