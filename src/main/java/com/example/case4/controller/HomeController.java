@@ -3,6 +3,7 @@ package com.example.case4.controller;
 import com.example.case4.model.Student;
 import com.example.case4.service.classroom.IClassService;
 import com.example.case4.service.coach.ICoachService;
+import com.example.case4.service.ministry.IMinistryService;
 import com.example.case4.service.student.IStudentService;
 import com.example.case4.service.user.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +22,21 @@ public class HomeController {
     private IStudentService studentService;
     @Autowired
     private IAppUserService appUserService;
+    @Autowired
+    private IClassService classService;
+    @Autowired
+    private IMinistryService ministryService;
     @GetMapping("/")
     public String index(){
         return "home";
     }
     @GetMapping("/student")
     public ModelAndView homeStudent(){
-        ModelAndView modelAndView = new ModelAndView("homeStudent");
-        Long id = appUserService.getCurrentUserId();
-        Optional<Student> student = studentService.findById(id);
-        if(!student.isPresent()){
-            return new ModelAndView("noredirect");
-        }
-        modelAndView.addObject("student",student.get());
+            ModelAndView modelAndView = new ModelAndView("homeStudent");
+        //Long id = appUserService.getCurrentUserId();
+        Optional<Student> studentOptional = studentService.findById(appUserService.getCurrentUserId());
+        Student student=studentOptional.get();
+        modelAndView.addObject("student",student);
         return modelAndView;
     }
     @GetMapping("/coach")
@@ -47,8 +50,10 @@ public class HomeController {
         return "homeAdmin";
     }
     @GetMapping("/ministry")
-    public String homeMinistry(){
-        return "homeMinistry";
+    public ModelAndView homeMinistry(){
+        ModelAndView modelAndView = new ModelAndView("homeMinistry");
+        modelAndView.addObject("listClass",classService.findAll());
+        return modelAndView;
     }
     @GetMapping("/page403")
     public String noRedirect(){

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{coachStudent :: layout_head}">
+</head>
+
+<body>
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar" th:replace="~{classroom :: nav_left}">
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content">
+
+        <nav th:replace="~{layoutAdmin :: nav_top}">
+
+        </nav>
+        <div>
+            <center><h4>Viết nhật ký</h4></center>
+            <form th:object="${diary}" th:method="post" th:href="'/coach/diary/'+${idClass}">
+                <fieldset>
+                    <textarea style="min-height: 200px" th:field="*{content}" name="content"></textarea>
+                    <center><input type="submit" value="Thêm"></center>
+                </fieldset>
+            </form>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col" width="10%">STT</th>
+                    <th scope="col" width="30%">
+                        <center>Thời gian</center>
+                    </th>
+                    <th scope="col">
+                        <center>Nội dung</center>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <th:block th:each="diary,count:${listDiary}">
+                    <tr>
+                        <th scope="row" th:text="${count.index+1}"></th>
+                        <td>
+                            <center th:text="${diary.getDate()}"></center>
+                        </td>
+                        <td th:text="${diary.getContent()}"></td>
+                    </tr>
+                </th:block>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+<div th:replace="~{layoutAdmin :: toggle_nav}"></div>
+</body>
+
+</html>

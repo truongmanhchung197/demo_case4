@@ -1,5 +1,6 @@
 package com.example.case4.service.ministry;
 
+import com.example.case4.model.Classroom;
 import com.example.case4.model.Ministry;
 import com.example.case4.service.IService;
 

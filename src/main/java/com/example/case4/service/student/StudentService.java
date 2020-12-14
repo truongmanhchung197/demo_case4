@@ -40,4 +40,5 @@ public class StudentService implements IStudentService{
     public Iterable<Student> getListClass(Long id) {
         return studentRepository.getAllByStatusIsTrueAndClassroom_Id(id);
     }
+
 }
