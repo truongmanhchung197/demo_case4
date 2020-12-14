@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layoutAdmin :: layout_head}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="wrapper">
+    <nav th:replace="~{layoutAdmin :: nav_left}"></nav>
+    <div id="content">
+        <nav th:replace="~{layoutAdmin :: nav_top}"></nav>
+        <h1>Thống kê số lượng học viên</h1>
+        <!-- Button trigger modal -->
+
+        <table class="table" id="classList">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Thứ tự</th>
+                <th scope="col">Giảng viên</th>
+                <th scope="col">Số lượng học viên</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block>
+                <tr th:each="coach,iStat : ${listCoach}">
+                    <th scope="row" th:text="${iStat.index + 1}"></th>
+                    <td th:text="${coach.name}"></td>
+
+                    <td th:text="${listStudentCoach.get(iStat.index)}"></td>
+                </tr>
+
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+</div>
+<div th:replace="~{layoutAdmin :: toggle_nav}"></div>
+</body>
+</html>

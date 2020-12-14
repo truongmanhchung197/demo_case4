@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layoutAdmin :: layout_head}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        var chart = new CanvasJS.Chart("chartContainer",
+            {
+                title:{
+                    text: "Biểu đồ điểm"
+                },
+                data: [
+
+                    {
+                        dataPoints: [
+                            { x: 1, y: 1, label: "1A"},
+                            { x: 2, y: 1,  label: "2" },
+                            { x: 3, y: 2,  label: "3"},
+                            { x: 4, y: 3,  label: "4"},
+                            { x: 5, y: 5,  label: "5"},
+                            { x: 6, y: 7, label: "6"},
+                            { x: 7, y: 5,  label: "7"},
+                            { x: 8, y: 3,  label: "8"},
+                            { x: 9, y: 4,  label: "9"},
+                            { x: 10, y: 1,  label: "10"}
+                        ]
+                    }
+                ]
+            });
+
+        chart.render();
+    }
+</script>
+<div class="wrapper">
+    <nav th:replace="~{layoutAdmin :: nav_left}"></nav>
+    <div id="content">
+        <nav th:replace="~{layoutAdmin :: nav_top}"></nav>
+        <h1>Biểu đồ điểm</h1>
+        <!-- Button trigger modal -->
+        <form method="post">
+            <select>
+                <option th:each="class : ${listClass}" th:value="${class.id}" th:text="${class.name}"></option>
+            </select>
+            <select>
+                <option th:each="class : ${listClass}" th:value="${class.id}" th:text="${class.name}"></option>
+            </select>
+            <span><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Xem
+        </button></span>
+        </form>
+        <p style="color:#000;">Số lượng</p>
+        <div id="chartContainer" style="height: 300px; width: 100%;">
+        </div>
+        <p style="text-align: right; color: black">Điểm</p>
+    </div>
+</div>
+<div th:replace="~{layoutAdmin :: toggle_nav}"></div>
+</body>
+</html>

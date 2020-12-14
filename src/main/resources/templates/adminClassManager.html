@@ -71,7 +71,7 @@
                     <th scope="row">${i}</th>
                     <td>${class1.name}</td>
                     <td>${class1.coach.name}</td>
-                    <td href=${class1.id} onclick="deleteClass(this)">Xoa</td>
+                    <td class="link_edit" href=${class1.id} onclick="deleteClass(this)">Xoá</td>
                 </tr>`;
         return row;
     }
@@ -100,7 +100,7 @@
                     <th scope="row" th:text="${iStat.index + 1}"></th>
                     <td th:text="${class.name}"></td>
                     <td th:text="${class.coach.name}"></td>
-                    <td th:href="${class.id}" onclick="deleteClass(this)">Xoa</td>
+                    <th style="color: blue" th:href="${class.id}" onclick="deleteClass(this)">Xoá</td>
                 </tr>
             </th:block>
             </tbody>

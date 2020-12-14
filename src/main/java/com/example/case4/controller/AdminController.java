@@ -3,6 +3,7 @@ package com.example.case4.controller;
 import com.example.case4.model.*;
 import com.example.case4.service.classroom.IClassService;
 import com.example.case4.service.coach.ICoachService;
+import com.example.case4.service.ministry.IMinistryService;
 import com.example.case4.service.student.IStudentService;
 import com.example.case4.service.user.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,9 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -32,6 +35,8 @@ public class AdminController {
     IClassService classService;
     @Autowired
     IAppUserService appUserService;
+    @Autowired
+    IMinistryService ministryService;
 
     @Value("${upload.path}")
     private String fileUpload;
@@ -56,6 +61,25 @@ public class AdminController {
     public ResponseEntity<Iterable<Classroom>> addClassRoom(@RequestBody Classroom classroom){
         classService.save(classroom);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @PostMapping("/ministry_manager_api")
+    public ResponseEntity<Iterable<Ministry>> addMinistry(@RequestBody Ministry ministry){
+        ministryService.save(ministry);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping("/ministry_manager_api")
+    public ResponseEntity<Iterable<Ministry>> getAllMinistry(){
+        return new ResponseEntity<>(ministryService.findAll(),HttpStatus.OK);
+    }
+    @DeleteMapping("/ministry_manager_api/{id}")
+    public ResponseEntity<Iterable<Ministry>> deleteMinistry(@PathVariable Long id){
+        if(ministryService.findById(id).isPresent()){
+            ministryService.remove(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
     }
     @GetMapping("/class_manager_api")
     public ResponseEntity<Iterable<Classroom>> showClassRoom(){
@@ -95,7 +119,7 @@ public class AdminController {
         String image = multipartFile.getOriginalFilename();
         student.setImage(image);
         try {
-            FileCopyUtils.copy(student.getImage().getBytes(),new File(this.fileUpload + image));
+            FileCopyUtils.copy(student.getAvatar().getBytes(),new File(this.fileUpload + image));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -108,6 +132,47 @@ public class AdminController {
             e.printStackTrace();
         }
     }
+
+    @GetMapping("/student_account_edit/{id}")
+    public ModelAndView showFormEditStudent(@PathVariable("id") Long id){
+        Optional<Student> student = studentService.findById(id);
+        ModelAndView modelAndView = new ModelAndView("editAccountStudent");
+        modelAndView.addObject("student",student.get());
+        return modelAndView;
+    }
+    @PostMapping("/student_account_edit/{id}")
+    public void EditStudent(@ModelAttribute Student student,HttpServletResponse response){
+
+        MultipartFile multipartFile = student.getAvatar();
+        String image = multipartFile.getOriginalFilename();
+        if (!image.equals("")) {
+            student.setImage(image);
+            try {
+                FileCopyUtils.copy(student.getAvatar().getBytes(),new File(this.fileUpload + image));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            student.setStatus(true);
+            studentService.save(student);
+        }else {
+            Optional<Student> student1 = studentService.findById(student.getId());
+            student1.get().setAddress(student.getAddress());
+            student1.get().setGender(student.getGender());
+            student1.get().setName(student.getName());
+            student1.get().setTel(student.getTel());
+            student1.get().setAge(student.getAge());
+            student1.get().setDiaryList(student.getDiaryList());
+            student1.get().setClassroom(student.getClassroom());
+
+            studentService.save(student1.get());
+        }
+        try {
+            response.sendRedirect("/admin/student_account");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @DeleteMapping("/student_account_api/{id}")
         public ResponseEntity<Student> deleteStudent(@PathVariable("id") Long id){
         if (studentService.findById(id).isPresent()){
@@ -164,5 +229,46 @@ public class AdminController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    @GetMapping("/ministry_account")
+    public ModelAndView showListMinistry(){
+        ModelAndView modelAndView = new ModelAndView("adminAccountMinistry");
+        modelAndView.addObject("listMinistry",ministryService.findAll());
+        return modelAndView;
+    }
+    @GetMapping("/student_statistical")
+    public ModelAndView showStudentStatistical(){
+        ModelAndView modelAndView = new ModelAndView("showStudentStatistical");
+        ArrayList<Coach> listCoach = (ArrayList<Coach>) coachService.findAll();
+        ArrayList<Integer> listClassNumber = new ArrayList<>();
+
+        for (int i = 0; i< listCoach.size();i++){
+            int classNumber = 0;
+            List<Classroom> classroomIterator = (List<Classroom>) coachService.showListClass(listCoach.get(i).getId());
+            for (int j = 0; j < classroomIterator.size();j++){
+                List<Student> studentIterator = (List<Student>) studentService.getListClass(classroomIterator.get(j).getId());
+                classNumber += studentIterator.size();
+            }
+            listClassNumber.add(classNumber);
+        }
+
+
+        modelAndView.addObject("listCoach",coachService.findAll());
+        modelAndView.addObject("listStudentCoach",listClassNumber);
+        return modelAndView;
+    }
+    @GetMapping("/class_mark_manager")
+    public ModelAndView showChartManager(){
+        ModelAndView modelAndView = new ModelAndView("adminMarkManager");
+        modelAndView.addObject("listClass",classService.findAll());
+        modelAndView.addObject("class",new Classroom());
+        return modelAndView;
+    }
+    @PostMapping("/class_mark_manager")
+    public ModelAndView chooseClass(){
+        ModelAndView modelAndView = new ModelAndView("adminMarkManager");
+        modelAndView.addObject("listClass",classService.findAll());
+        modelAndView.addObject("class",new Classroom());
+        return modelAndView;
     }
 }
