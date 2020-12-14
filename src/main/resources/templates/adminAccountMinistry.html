@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layoutAdmin :: layout_head}">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script type="text/javascript">
+    function addMinistry(id) {
+        let nameMinistry = $('#nameMinistry').val();
+        let newMinistry = {
+            id : id,
+            name : nameMinistry
+        };
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type:"POST",
+            data: JSON.stringify(newMinistry),
+            //tên API
+            url:"/admin/ministry_manager_api",
+            //xử lý khi thành công
+            success: function (data) {
+                addMinistrySuccessHandler();
+            }
+        })
+        event.preventDefault();
+    };
+    function deleteMinistry(e) {
+        let idMinistry = e.getAttribute("href");
+        $.ajax ({
+            type : "DELETE",
+            url:"/admin/ministry_manager_api/" + idMinistry,
+            success : function () {
+                deleteAppUser(e);
+                addMinistrySuccessHandler();
+            }
+        })
+        event.preventDefault();
+    }
+    function deleteAppUser(e) {
+        let id = e.getAttribute("href");
+        $.ajax({
+            type : "DELETE",
+            url : "/app_user/" + id,
+            success: function (data){
+            }
+        })
+    }
+    function addAppUserMinistry() {
+        let usernameMinistry = $('#usernameMinistry').val();
+        let passwordMinistry = $('#passwordMinistry').val();
+        let newAppUser = {
+            username : usernameMinistry,
+            password : passwordMinistry,
+            role : {
+                id : 4
+            }
+        }
+        $.ajax({
+            headers: {
+                'Accept' : 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type :"POST",
+            data : JSON.stringify(newAppUser),
+            url:"/app_user",
+            success: function (data) {
+                $.ajax({
+                    type:"GET",
+                    url:"/app_user",
+                    success : function (listAppUser){
+                        for (let i = 0; i < listAppUser.length;i++){
+                            if (listAppUser[i].username === $('#usernameMinistry').val()){
+                                addMinistry(listAppUser[i].id);
+                                break
+                            }
+                        }
+                    }
+
+                })
+            }
+        })
+    }
+    function addMinistrySuccessHandler() {
+        $.ajax({
+            type: "GET",
+            url: "/admin/ministry_manager_api",
+            success: function (listMinistry){
+                let content = `<table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Thứ tự</th>
+                <th scope="col">Giáo vụ</th>
+                <th scope="col">Xoá</th>
+            </tr>
+            </thead>
+            <tbody>`;
+                for (let i =0; i < listMinistry.length;i++){
+                    content += getMinistry(listMinistry[i],i+1);
+                }
+                content += "</tbody>\n" +
+                    "        </table>"
+                document.getElementById("ministryList").innerHTML = content;
+            }
+        })
+    };
+    function getMinistry(ministry1,i){
+        let row = `<tr>
+                    <th scope="row">${i}</th>
+                    <td>${ministry1.name}</td>
+                    <th style="color: blue" href=${ministry1.id} onclick="deleteMinistry(this)">Xoá</t>
+                </tr>`;
+        return row;
+    }
+</script>
+<div class="wrapper">
+    <nav th:replace="~{layoutAdmin :: nav_left}"></nav>
+    <div id="content">
+        <nav th:replace="~{layoutAdmin :: nav_top}"></nav>
+        <h1>Danh sách giáo vụ</h1>
+        <!-- Button trigger modal -->
+        <span><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Thêm giáo vụ
+        </button></span>
+        <table class="table" id="ministryList">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">Thứ tự</th>
+                <th scope="col">Giáo vụ</th>
+                <th scope="col">Xoá</th>
+            </tr>
+            </thead>
+            <tbody>
+            <th:block>
+                <tr th:each="ministry,iStat : ${listMinistry}">
+                    <th scope="row" th:text="${iStat.index + 1}"></th>
+                    <td th:text="${ministry.name}"></td>
+                    <td class="link_edit" th:href="${ministry.id}" onclick="deleteMinistry(this)">Xoá</td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Thêm giáo vụ</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post">
+                        <table>
+                            <tr>
+                                <td class="modal-title">Tên giáo vụ</td>
+                                <td><input id="nameMinistry" name="name" placeholder="Nhập tên giáo vụ"/></td>
+                            </tr>
+                            <tr>
+                                <td class="modal-title">Tài khoản</td>
+                                <td><input id="usernameMinistry" name="name" placeholder="Nhập tài khoản"/></td>
+                            </tr>
+                            <tr>
+                                <td class="modal-title">Mật khẩu</td>
+                                <td><input id="passwordMinistry" name="name" placeholder="Nhập mật khẩu"/></td>
+                            </tr>
+                            <tr>
+                                <td><button type="button" class="btn btn-primary" id="createMinistry" data-dismiss="modal" value="Create" onclick="addAppUserMinistry()">Create</button></td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div th:replace="~{layoutAdmin :: toggle_nav}"></div>
+</body>
+</html>

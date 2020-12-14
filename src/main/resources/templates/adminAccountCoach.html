@@ -146,8 +146,8 @@
                     <td>${coach.address}</td>
                     <td>${coach.phoneNumber}</td>
                     <td>${coach.gender}</td>
-                    <th><a style="color: blue" onclick="deleteCoach(this)" href=${coach.id} >Xoá</a></th>
-                    <th><a style="color: blue" href="/admin/coach_account_edit/${coach.id}">Sửa</a></th>
+                    <th><a id="link_edit" onclick="deleteCoach(this)" href=${coach.id} >Xoá</a></th>
+                    <th><a id="link_edit" href="/admin/coach_account_edit/${coach.id}">Sửa</a></th>
                 </tr>`
             return row;
         }
@@ -248,7 +248,7 @@
                     <td th:text="${coach.address}"></td>
                     <td th:text="${coach.phoneNumber}"></td>
                     <td th:text="${coach.gender}"></td>
-                    <th><a style="color: blue" onclick="deleteCoach(this)" th:attr="href=${coach.id}" >Xoá</a></th>
+                    <th><a onclick="deleteCoach(this)" th:attr="href=${coach.id}" >Xoá</a></th>
                     <th><a style="color: blue" th:href="@{/admin/coach_account_edit/__${coach.id}__}">Sửa</a></th>
                 </tr>
             </th:block>

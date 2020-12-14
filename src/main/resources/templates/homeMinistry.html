@@ -2,16 +2,73 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{layoutAdmin :: layout_head}">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Giảng viên</title>
 </head>
+
 <body>
 <div class="wrapper">
-    <nav th:replace="~{layoutMinistry :: nav_left}"></nav>
+    <!-- Sidebar  -->
+    <nav id="sidebar" th:fragment="nav_left">
+        <div class="sidebar-header">
+            <a href="/coach"><img src="../ministry.png" class="rounded-circle" alt="Cinque Terre" width="100" height="100"></a>
+            <h3>Trang Ministry</h3>
+        </div>
+
+        <ul class="list-unstyled components">
+            <p>Danh sách lớp học</p>
+            <div th:each="classroom:${listClass}">
+                <ul class="list-unstyled components">
+                    <li class="active">
+                        <h4><a th:href="'#homeSubmenu'+${classroom.name}" data-toggle="collapse" aria-expanded="false"
+                               th:text="${classroom.getName()}"></a></h4>
+                    </li>
+                </ul>
+            </div>
+        </ul>
+    </nav>
+
+    <!-- Page Content  -->
     <div id="content">
-        <nav th:replace="~{layoutMinistry :: nav_top}"></nav>
-        <h1>Đây là trang Ministry</h1>
+
+        <nav th:replace="~{layoutAdmin :: nav_top}">
+
+        </nav>
+        <div>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">First</th>
+                    <th scope="col">Last</th>
+                    <th scope="col">Handle</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Mark</td>
+                    <td>Otto</td>
+                    <td>@mdo</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Jacob</td>
+                    <td>Thornton</td>
+                    <td>@fat</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Larry</td>
+                    <td>the Bird</td>
+                    <td>@twitter</td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
     </div>
 </div>
-<div th:replace="~{layoutMinistry :: toggle_nav}"></div>
+<div th:replace="~{layoutAdmin :: toggle_nav}"></div>
 </body>
+
 </html>

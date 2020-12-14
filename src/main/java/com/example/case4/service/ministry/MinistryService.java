@@ -1,6 +1,8 @@
 package com.example.case4.service.ministry;
 
+import com.example.case4.model.Classroom;
 import com.example.case4.model.Ministry;
+import com.example.case4.repo.ClassRepository;
 import com.example.case4.repo.MinistryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,8 @@ public class MinistryService implements IMinistryService {
 
     @Autowired
     private MinistryRepository ministryRepository;
+    @Autowired
+    private ClassRepository classRepository;
 
     @Override
     public Iterable<Ministry> findAll() {
@@ -32,4 +36,5 @@ public class MinistryService implements IMinistryService {
     public void remove(Long id) {
         ministryRepository.deleteById(id);
     }
+
 }

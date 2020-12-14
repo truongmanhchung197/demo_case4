@@ -37,4 +37,11 @@ public class MarkStudentService implements IMarkStudentService {
     public Iterable<Mark> showListMark(Long id) {
         return markStudentRepository.getAllByStudent_Id(id);
     }
+
+    @Override
+    public Mark getByStudentIdAndModuleId(Long idStudent, Long idModule) {
+        return markStudentRepository.getByStudentIdAndModuleId(idStudent,idModule);
+    }
+
+
 }

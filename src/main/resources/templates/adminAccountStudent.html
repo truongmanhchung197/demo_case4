@@ -9,16 +9,17 @@
     #addStudent {
         background-color: blue;
         color: white;
-        padding: 14px 25px;
+        padding: 10px 25px;
         text-align: center;
         text-decoration: none;
         display: inline-block;
+        margin-bottom: 5px;
     }
 </style>
 
 <script type="text/javascript">
     function deleteStudent(e) {
-        let idStudent = getAttribute(e);
+        let idStudent = e.getAttribute("href");
         $.ajax({
             type:"DELETE",
             url : "/admin/student_account_api/" + idStudent,
@@ -44,27 +45,41 @@
             type: "GET",
             url: "/admin/student_account_api",
             success: function(listStudent){
-                let content = `<table class="table">
-            <thead class="thead-dark">
-            <tr>
-                <th scope="col">Thứ tự</th>
-                <th scope="col">Tên</th>
-                <th scope="col">Tuổi</th>
-                <th scope="col">Địa chỉ</th>
-                <th scope="col">Số điện thoại</th>
-                <th scope="col">Lớp</th>
-                <th scope="col">Ảnh</th>
-                <th scope="col">Xoá</th>
-                <th scope="col">Sửa</th>
-            </tr>
-            </thead>
-            <tbody>`;
+                let content = "<table class='table'><thead class='thead-dark'>\n"+
+            "<tr> <th scope='col'>Thứ tự</th>\n"+
+                "<th scope='col'>Tên</th>\n"+
+                "<th scope='col'>Tuổi</th>\n"+
+                "<th scope='col'>Địa chỉ</th>\n"+
+                "<th scope='col'>Giới tính</th>\n"+
+                "<th scope='col'>Số điện thoại</th>\n"+
+                "<th scope='col'>Lớp</th>\n"+
+                "<th scope='col'>Ảnh</th>\n"+
+                "<th scope='col'>Xoá</th>\n"+
+                "<th scope='col'>Sửa</th>\n"+
+            "</tr></thead> <tbody>";
                 for (let i = 0;i < listStudent.length;i++){
-                    content += getStudent(listStudent[i]);
+                    content += getStudent(listStudent[i],i+1);
                 }
-
+                document.getElementById("listStudent").innerHTML = content;
             }
         })
+    }
+    function getStudent(student,i){
+        let row = `<tr>
+                    <th scope="row">${i}</th>
+                    <td>${student.name}</td>
+                    <td>${student.age}</td>
+                    <td>${student.address}</td>
+                    <td>${student.gender}</td>
+                    <td>${student.tel}</td>
+                    <td>${student.classroom.name}</td>
+                    <td>
+                        <img src="../${student.image}" style="width: 100px; height: 100px">
+                    </td>
+                    <th style="color: blue" class="link_edit"><a href=${student.id} onclick="deleteStudent(this)">Xoá</a></th>
+                    <th style="color: blue" class="link_edit"><a href="@{/admin/student_account_edit/__${student.id}__}">Sửa</a></th>
+                </tr>`
+        return row;
     }
 </script>
 
@@ -75,13 +90,14 @@
         <div style="display: inline">
             <span><h1>Danh sách tài khoản học viên</h1></span>
             <a id="addStudent" href="/admin/student_account/create">Thêm học viên</a>
-        <table class="table" id="#listStudent">
+        <table class="table" id="listStudent">
             <thead class="thead-dark">
             <tr>
                 <th scope="col">Thứ tự</th>
                 <th scope="col">Tên</th>
                 <th scope="col">Tuổi</th>
                 <th scope="col">Địa chỉ</th>
+                <th scope="col">Giới tính</th>
                 <th scope="col">Số điện thoại</th>
                 <th scope="col">Lớp</th>
                 <th scope="col">Ảnh</th>
@@ -96,13 +112,14 @@
                     <td th:text="${student.name}"></td>
                     <td th:text="${student.age}"></td>
                     <td th:text="${student.address}"></td>
+                    <td th:text="${student.gender}"></td>
                     <td th:text="${student.tel}"></td>
                     <td th:text="${student.classroom.name}"></td>
                     <td>
                         <img th:src="'../' + ${student.image}" style="width: 100px; height: 100px">
                     </td>
-                    <td th:href="${student.id}" onclick="deleteStudent(this)">Xoa</td>
-                    <td>Sua</td>
+                    <th style="color: blue"><a th:href="${student.id}" onclick="deleteStudent(this)">Xoá</a></th>
+                    <th style="color: blue" ><a th:href="@{/admin/student_account_edit/__${student.id}__}">Sửa</a></th>
                 </tr>
             </th:block>
             </tbody>
