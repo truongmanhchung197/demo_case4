@@ -3,7 +3,10 @@ package com.example.case4.controller;
 import com.example.case4.model.*;
 import com.example.case4.service.classroom.IClassService;
 import com.example.case4.service.coach.ICoachService;
+import com.example.case4.service.diaryStudent.IDiaryStudentService;
+import com.example.case4.service.markstudent.IMarkStudentService;
 import com.example.case4.service.ministry.IMinistryService;
+import com.example.case4.service.module.IModuleService;
 import com.example.case4.service.student.IStudentService;
 import com.example.case4.service.user.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +40,13 @@ public class AdminController {
     IAppUserService appUserService;
     @Autowired
     IMinistryService ministryService;
+    @Autowired
+    IDiaryStudentService diaryStudentService;
+    @Autowired
+    IModuleService moduleService;
+    @Autowired
+    IMarkStudentService markStudentService;
+
 
     @Value("${upload.path}")
     private String fileUpload;
@@ -161,7 +171,6 @@ public class AdminController {
             student1.get().setName(student.getName());
             student1.get().setTel(student.getTel());
             student1.get().setAge(student.getAge());
-            student1.get().setDiaryList(student.getDiaryList());
             student1.get().setClassroom(student.getClassroom());
 
             studentService.save(student1.get());
@@ -242,11 +251,11 @@ public class AdminController {
         ArrayList<Coach> listCoach = (ArrayList<Coach>) coachService.findAll();
         ArrayList<Integer> listClassNumber = new ArrayList<>();
 
-        for (int i = 0; i< listCoach.size();i++){
+        for (Coach coach : listCoach) {
             int classNumber = 0;
-            List<Classroom> classroomIterator = (List<Classroom>) coachService.showListClass(listCoach.get(i).getId());
-            for (int j = 0; j < classroomIterator.size();j++){
-                List<Student> studentIterator = (List<Student>) studentService.getListClass(classroomIterator.get(j).getId());
+            List<Classroom> classroomIterator = (List<Classroom>) coachService.showListClass(coach.getId());
+            for (Classroom classroom : classroomIterator) {
+                List<Student> studentIterator = (List<Student>) studentService.getListClass(classroom.getId());
                 classNumber += studentIterator.size();
             }
             listClassNumber.add(classNumber);
@@ -261,14 +270,32 @@ public class AdminController {
     public ModelAndView showChartManager(){
         ModelAndView modelAndView = new ModelAndView("adminMarkManager");
         modelAndView.addObject("listClass",classService.findAll());
+        modelAndView.addObject("listModule",moduleService.findAll());
         modelAndView.addObject("class",new Classroom());
         return modelAndView;
     }
-    @PostMapping("/class_mark_manager")
-    public ModelAndView chooseClass(){
-        ModelAndView modelAndView = new ModelAndView("adminMarkManager");
-        modelAndView.addObject("listClass",classService.findAll());
-        modelAndView.addObject("class",new Classroom());
-        return modelAndView;
+    @GetMapping("/class_mark_manager_api/class/{idClass}/module/{idModule}")
+    public ResponseEntity<List<Integer>> chooseClass(@PathVariable("idClass") Long idClass,@PathVariable("idModule") Long idModule){
+        List<Student> studentList = (List<Student>) studentService.getListClass(idClass);
+        List<Integer> pointList = new ArrayList<>();
+
+        for (int i = 0; i <= 90;i+=10){
+            int countPractice = 0;
+            int countTheory = 0;
+            for (Student student : studentList) {
+                Float practice_point = markStudentService.getByStudentIdAndModuleId(student.getId(), idModule).getPractice_point();
+                Float theory_point = markStudentService.getByStudentIdAndModuleId(student.getId(), idModule).getTheory_point();
+                if (practice_point > i && practice_point<= i+10){
+                    countPractice++;
+                }
+                if (theory_point > i && theory_point<= i+10){
+                    countTheory++;
+                }
+            }
+            pointList.add(countPractice);
+            pointList.add(countTheory);
+        }
+
+        return new ResponseEntity<>(pointList,HttpStatus.OK);
     }
 }

@@ -7,32 +7,74 @@
 <body>
 <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script type="text/javascript">
-    window.onload = function () {
-        var chart = new CanvasJS.Chart("chartContainer",
+
+    function showChart (pointList) {
+        let chart = new CanvasJS.Chart("practice_point",
             {
                 title:{
-                    text: "Biểu đồ điểm"
+                    text: "Biểu đồ điểm thực hành"
                 },
                 data: [
 
                     {
                         dataPoints: [
-                            { x: 1, y: 1, label: "1A"},
-                            { x: 2, y: 1,  label: "2" },
-                            { x: 3, y: 2,  label: "3"},
-                            { x: 4, y: 3,  label: "4"},
-                            { x: 5, y: 5,  label: "5"},
-                            { x: 6, y: 7, label: "6"},
-                            { x: 7, y: 5,  label: "7"},
-                            { x: 8, y: 3,  label: "8"},
-                            { x: 9, y: 4,  label: "9"},
-                            { x: 10, y: 1,  label: "10"}
+
+                            { x: 10, y: pointList[0], label: "1"},
+                            { x: 20, y: pointList[2],  label: "2" },
+                            { x: 30, y: pointList[4],  label: "3"},
+                            { x: 40, y: pointList[6],  label: "4"},
+                            { x: 50, y: pointList[8],  label: "5"},
+                            { x: 60, y: pointList[10], label: "6"},
+                            { x: 70, y: pointList[12],  label: "7"},
+                            { x: 80, y: pointList[14],  label: "8"},
+                            { x: 90, y: pointList[16],  label: "9"},
+                            { x: 100, y: pointList[18],  label: "10"}
+                        ]
+                    }
+                ]
+            });
+        let chart2 = new CanvasJS.Chart("theory_point",
+            {
+                title:{
+                    text: "Biểu đồ điểm lý thuyết"
+                },
+                data: [
+
+                    {
+                        dataPoints: [
+                            { x: 10, y: pointList[1], label: "1A"},
+                            { x: 20, y: pointList[3],  label: "2" },
+                            { x: 30, y: pointList[5],  label: "3"},
+                            { x: 40, y: pointList[7],  label: "4"},
+                            { x: 50, y: pointList[9],  label: "5"},
+                            { x: 60, y: pointList[11], label: "6"},
+                            { x: 70, y: pointList[13],  label: "7"},
+                            { x: 80, y: pointList[15],  label: "8"},
+                            { x: 90, y: pointList[17],  label: "9"},
+                            { x: 100, y: pointList[19],  label: "10"}
                         ]
                     }
                 ]
             });
 
         chart.render();
+        chart2.render();
+    }
+    function displayChart() {
+        let idClass = $('#idClass').val();
+        let idModule = $('#idModule').val();
+        $.ajax({
+            type: "GET",
+            url: "/admin/class_mark_manager_api/class/ " + idClass + "/module/" + idModule,
+            success: function (pointList){
+                /*let arr = new Array();
+                for (let i =0; i< pointList.length;i++){
+                    arr.push(pointList[])
+                }*/
+                showChart(pointList);
+            }
+        })
+        event.preventDefault();
     }
 </script>
 <div class="wrapper">
@@ -42,18 +84,21 @@
         <h1>Biểu đồ điểm</h1>
         <!-- Button trigger modal -->
         <form method="post">
-            <select>
-                <option th:each="class : ${listClass}" th:value="${class.id}" th:text="${class.name}"></option>
+            <select name="classes" id="idClass">
+                <option th:each="class : ${listClass}" th:value="${class.id}"  th:text="${class.name}"></option>
             </select>
-            <select>
-                <option th:each="class : ${listClass}" th:value="${class.id}" th:text="${class.name}"></option>
+            <select  name="module" id="idModule">
+                <option th:each="module : ${listModule}" th:value="${module.id}" th:text="${module.name}"></option>
             </select>
-            <span><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-            Xem
+            <span><button onclick="displayChart()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Create
         </button></span>
         </form>
         <p style="color:#000;">Số lượng</p>
-        <div id="chartContainer" style="height: 300px; width: 100%;">
+        <div id="practice_point" style="height: 300px; width: 100%;">
+        </div>
+        <p style="text-align: right; color: black">Điểm</p>
+        <p style="color:#000;">Số lượng</p>
+        <div id="theory_point" style="height: 300px; width: 100%;">
         </div>
         <p style="text-align: right; color: black">Điểm</p>
     </div>
