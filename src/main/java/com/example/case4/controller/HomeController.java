@@ -26,37 +26,43 @@ public class HomeController {
     private IClassService classService;
     @Autowired
     private IMinistryService ministryService;
+
     @GetMapping("/")
-    public String index(){
+    public String index() {
         return "home";
     }
+
     @GetMapping("/student")
-    public ModelAndView homeStudent(){
-            ModelAndView modelAndView = new ModelAndView("homeStudent");
+    public ModelAndView homeStudent() {
+        ModelAndView modelAndView = new ModelAndView("homeStudent");
         //Long id = appUserService.getCurrentUserId();
         Optional<Student> studentOptional = studentService.findById(appUserService.getCurrentUserId());
-        Student student=studentOptional.get();
-        modelAndView.addObject("student",student);
+        Student student = studentOptional.get();
+        modelAndView.addObject("student", student);
         return modelAndView;
     }
+
     @GetMapping("/coach")
-    public ModelAndView homeCoach(){
+    public ModelAndView homeCoach() {
         ModelAndView modelAndView = new ModelAndView("homeCoach");
-        modelAndView.addObject("listClass",coachService.showListClass(appUserService.getCurrentUserId()));
+        modelAndView.addObject("listClass", coachService.showListClass(appUserService.getCurrentUserId()));
         return modelAndView;
     }
+
     @GetMapping("/admin")
-    public String homeAdmin(){
+    public String homeAdmin() {
         return "homeAdmin";
     }
+
     @GetMapping("/ministry")
-    public ModelAndView homeMinistry(){
+    public ModelAndView homeMinistry() {
         ModelAndView modelAndView = new ModelAndView("homeMinistry");
-        modelAndView.addObject("listClass",classService.findAll());
+        modelAndView.addObject("listClass", classService.findAll());
         return modelAndView;
     }
+
     @GetMapping("/page403")
-    public String noRedirect(){
+    public String noRedirect() {
         return "noredirect";
     }
 }
