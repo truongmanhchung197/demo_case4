@@ -60,6 +60,14 @@
         </nav>
         <div>
             <h3 th:text="'Danh sách học viên lớp '+${classname}"></h3>
+            <form style="margin-bottom: 10px" method="post">
+                <select name="idModule">
+                    <option th:each="module : ${modules}" th:value="${module.id}" th:text="${module.name}">
+                    </option>
+                </select>
+                <button type="submit" value="Tính điểm trung bình">Tính điểm trung bình lớp</button>
+            </form>
+            <p th:if="${averagePractice}" th:text="'Điểm trung bình thực hành là : ' + ${averagePractice} + 'lý thuyết là : ' + ${averageTheory}"></p>
             <table class="table">
                 <thead class="thead-dark">
                 <tr>

@@ -17,6 +17,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -51,6 +53,33 @@ public class MinistryController {
         modelAndView.addObject("listStudent", listStudent);
         Optional<Classroom> classroom = classService.findById(id);
         modelAndView.addObject("classname", classroom.get().getName());
+        modelAndView.addObject("modules",moduleService.findAll());
+        return modelAndView;
+    }
+
+    @PostMapping("/classlist/{idClass}")
+    public ModelAndView average_mark(@PathVariable Long idClass,@RequestParam Long idModule) {
+        ModelAndView modelAndView = new ModelAndView("listStudent");
+        ArrayList<Student> listStudent = (ArrayList<Student>) studentService.getListClass(idClass);
+        ArrayList<Mark> markArrayList = new ArrayList<>();
+        Float averagePractice = 0F;
+        Float averageTheory = 0F;
+        for (int i = 0; i < listStudent.size();i++){
+            Mark mark = markStudentService.getByStudentIdAndModuleId(listStudent.get(i).getId(),idModule);
+            averagePractice += mark.getPractice_point();
+            averageTheory += mark.getTheory_point();
+        }
+        averagePractice = averagePractice/listStudent.size();
+        averageTheory = averageTheory/listStudent.size();
+        modelAndView.addObject("averagePractice",averagePractice);
+        modelAndView.addObject("averageTheory",averageTheory);
+        modelAndView.addObject("listClass", classService.findAll());
+        Iterable<Student> listStudent2 = studentService.getListClass(idClass);
+        modelAndView.addObject("listStudent", listStudent2);
+        Optional<Classroom> classroom = classService.findById(idClass);
+        modelAndView.addObject("classname", classroom.get().getName());
+        modelAndView.addObject("modules",moduleService.findAll());
+
         return modelAndView;
     }
 
@@ -102,4 +131,5 @@ public class MinistryController {
             e.printStackTrace();
         }
     }
+
 }
