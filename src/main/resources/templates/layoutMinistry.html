@@ -14,7 +14,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <!-- Our Custom CSS -->
-    <link rel="stylesheet" href="../../../../styleHomeAdmin.css">
+    <link rel="stylesheet" href="../styleHomeAdmin.css">
 
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
@@ -31,43 +31,45 @@
 <body>
 <div class="wrapper">
     <!-- Sidebar  -->
-    <nav id="sidebar" th:fragment="nav_left">
+    <nav th:fragment="nav_left" id="sidebar">
         <div class="sidebar-header">
-            <a href="/coach"><img src="../../../../ministry.png" class="rounded-circle" alt="Cinque Terre" width="100" height="100"></a>
+            <img src="../../ministry.png" class="rounded-circle" alt="Cinque Terre" width="100" height="100">
             <h3>Trang Ministry</h3>
         </div>
-
     </nav>
-
-
     <!-- Page Content  -->
     <div id="content">
 
-        <nav th:replace="~{layoutMinistry :: nav_top}">
+        <nav th:fragment="nav_top" class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
 
+                <button type="button" id="sidebarCollapse" class="btn btn-info">
+                    <i class="fas fa-align-left"></i>
+                    <span>Mở/đóng</span>
+                </button>
+                <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <i class="fas fa-align-justify"></i>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/logout">Đăng xuất</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </nav>
-        <div>
-            <form method="post" th:object="${mark}">
-                <input type="hidden" name="id" th:value="${mark.getId()}">
-                <table>
-                    <tr>
-                        <td class="modal-title">Điểm lý thuyết</td>
-                        <td><input name="theory_point" th:value="${mark.getTheory_point()}"  placeholder="Nhập điểm lý thuyết"></td>
-                    </tr>
-                    <tr>
-                        <td class="modal-title">Điểm thực hành</td>
-                        <td><input name="practice_point" th:value="${mark.getPractice_point()}" placeholder="Nhập điểm thực hành"/></td>
-                    </tr>
-                    <tr>
-                        <td><input type="submit" class="btn btn-primary"></td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-
     </div>
 </div>
-<div th:replace="~{layoutMinistry :: toggle_nav}"></div>
+
+<script th:fragment="toggle_nav" type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+        });
+    });
+</script>
 </body>
 
 </html>

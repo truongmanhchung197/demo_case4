@@ -64,21 +64,40 @@ public class MinistryController {
         return modelAndView;
     }
 
-    @GetMapping("/student/edit/{idClass}/{idModule}")
-    public ModelAndView showFormEditMark(@PathVariable Long idClass,@PathVariable Long idModule){
+    @GetMapping("/student/edit/{idStudent}/{idModule}")
+    public ModelAndView showFormEditMark(@PathVariable Long idStudent, @PathVariable Long idModule){
         ModelAndView modelAndView = new ModelAndView("editMark");
-        Mark mark = markStudentService.getByStudentIdAndModuleId(idClass,idModule);
+        Mark mark = markStudentService.getByStudentIdAndModuleId(idStudent,idModule);
         modelAndView.addObject("mark",mark);
         return modelAndView;
     }
-    @PostMapping("/student/edit/{idClass}/{idModule}")
-    public void editMark(@ModelAttribute Mark mark, HttpServletResponse response,@PathVariable Long idClass,@PathVariable Long idModule){
+    @PostMapping("/student/edit/{idStudent}/{idModule}")
+    public void editMark(@ModelAttribute Mark mark, HttpServletResponse response,@PathVariable Long idStudent,@PathVariable Long idModule){
 
         mark.setModule(moduleService.findById(idModule).get());
-        mark.setStudent(studentService.findById(idClass).get());
+        mark.setStudent(studentService.findById(idStudent).get());
         markStudentService.save(mark);
         try {
-            response.sendRedirect("/ministry/student/" + idClass);
+            response.sendRedirect("/ministry/student/" + idStudent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @GetMapping("/student/create/{idStudent}")
+    public ModelAndView showFormCreateMark(@PathVariable Long idStudent){
+        ModelAndView modelAndView = new ModelAndView("createMark");
+
+        modelAndView.addObject("modules",moduleService.findAll());
+        modelAndView.addObject("mark", new Mark());
+        return modelAndView;
+    }
+    @PostMapping("/student/create/{idStudent}")
+    public void createMark(@ModelAttribute Mark mark, HttpServletResponse response, @PathVariable Long idStudent, @RequestParam Long idModule){
+        mark.setModule(moduleService.findById(idModule).get());
+        mark.setStudent(studentService.findById(idStudent).get());
+        markStudentService.save(mark);
+        try {
+            response.sendRedirect("/ministry/student/" + idStudent);
         } catch (IOException e) {
             e.printStackTrace();
         }

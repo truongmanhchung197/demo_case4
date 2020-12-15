@@ -49,13 +49,13 @@
 <body>
 <div class="wrapper">
     <!-- Sidebar  -->
-    <nav th:replace="~{classroom :: nav_left}">
+    <nav th:replace="~{layoutMinistry :: nav_left}">
     </nav>
 
     <!-- Page Content  -->
     <div id="content">
 
-        <nav th:replace="~{layoutAdmin :: nav_top}">
+        <nav th:replace="~{layoutMinistry :: nav_top}">
 
         </nav>
         <div class="tab-pane active" id="1">
@@ -104,6 +104,9 @@
                 </tr>
                 </thead>
                 <tbody>
+                <tr>
+                    <a th:href="@{'/ministry/student/create/'+${student.getId()}}">Thêm</a>
+                </tr>
                 <th:block th:each="mark,count:${listMark}">
                     <tr>
                         <th scope="row" th:text="${count.index+1}"></th>
@@ -115,16 +118,17 @@
                             <center th:text="${mark.getPractice_point()}"></center>
                         </td>
                         <td>
-                            <a th:href="@{'/ministry/student/edit/'+${student.getId()} + '/' + ${mark.getId()}}">Edit</a>
+                            <a th:href="@{'/ministry/student/edit/'+${student.getId()} + '/' + ${mark.getModule().getId()}}">Edit</a>
                         </td>
                     </tr>
+
                 </th:block>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-<div th:replace="~{layoutAdmin :: toggle_nav}"></div>
+<div th:replace="~{layoutMinistry :: toggle_nav}"></div>
 </body>
 
 </html>

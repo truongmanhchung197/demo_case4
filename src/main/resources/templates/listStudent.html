@@ -49,13 +49,13 @@
 <body>
 <div class="wrapper">
     <!-- Sidebar  -->
-    <nav th:replace="~{classroom :: nav_left}">
+    <nav th:replace="~{layoutMinistry :: nav_left}">
     </nav>
 
     <!-- Page Content  -->
     <div id="content">
 
-        <nav th:replace="~{layoutAdmin :: nav_top}">
+        <nav th:replace="~{layoutMinistry :: nav_top}">
 
         </nav>
         <div>
@@ -86,7 +86,7 @@
         </div>
     </div>
 </div>
-<div th:replace="~{layoutAdmin :: toggle_nav}"></div>
+<div th:replace="~{layoutMinistry :: toggle_nav}"></div>
 </body>
 
 </html>
