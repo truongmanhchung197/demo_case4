@@ -24,7 +24,8 @@
 
         </nav>
         <div>
-            <form method="post" th:object="${mark}" enctype="multipart/form-data">
+            <form method="post" th:object="${mark}">
+                <input type="hidden" name="id" th:value="${mark.getId()}">
                 <table>
                     <tr>
                         <td class="modal-title">Điểm lý thuyết</td>

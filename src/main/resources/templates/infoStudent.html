@@ -115,7 +115,7 @@
                             <center th:text="${mark.getPractice_point()}"></center>
                         </td>
                         <td>
-                            <a th:href="@{'/ministry/student/edit/'+${mark.getId()}}">Edit</a>
+                            <a th:href="@{'/ministry/student/edit/'+${student.getId()} + '/' + ${mark.getId()}}">Edit</a>
                         </td>
                     </tr>
                 </th:block>

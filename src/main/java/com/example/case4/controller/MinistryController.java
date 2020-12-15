@@ -7,12 +7,16 @@ import com.example.case4.service.classroom.IClassService;
 import com.example.case4.service.coach.ICoachService;
 import com.example.case4.service.markstudent.IMarkStudentService;
 import com.example.case4.service.ministry.IMinistryService;
+import com.example.case4.service.module.IModuleService;
 import com.example.case4.service.student.IStudentService;
 import com.example.case4.service.user.IAppUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Optional;
 
 @RestController
@@ -28,6 +32,8 @@ public class MinistryController {
     private IClassService classService;
     @Autowired
     private IMarkStudentService markStudentService;
+    @Autowired
+    private IModuleService moduleService;
 
     @GetMapping("/classlist")
     public ModelAndView showListClass() {
@@ -58,11 +64,23 @@ public class MinistryController {
         return modelAndView;
     }
 
-    @GetMapping("/student/edit/{id}")
-    public ModelAndView editMark(@PathVariable Long id){
+    @GetMapping("/student/edit/{idClass}/{idModule}")
+    public ModelAndView showFormEditMark(@PathVariable Long idClass,@PathVariable Long idModule){
         ModelAndView modelAndView = new ModelAndView("editMark");
-        Optional<Mark> mark = markStudentService.findById(id);
-        modelAndView.addObject("mark",mark.get());
+        Mark mark = markStudentService.getByStudentIdAndModuleId(idClass,idModule);
+        modelAndView.addObject("mark",mark);
         return modelAndView;
+    }
+    @PostMapping("/student/edit/{idClass}/{idModule}")
+    public void editMark(@ModelAttribute Mark mark, HttpServletResponse response,@PathVariable Long idClass,@PathVariable Long idModule){
+
+        mark.setModule(moduleService.findById(idModule).get());
+        mark.setStudent(studentService.findById(idClass).get());
+        markStudentService.save(mark);
+        try {
+            response.sendRedirect("/ministry/student/" + idClass);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

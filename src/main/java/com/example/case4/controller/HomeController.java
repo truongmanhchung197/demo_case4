@@ -1,8 +1,10 @@
 package com.example.case4.controller;
 
+import com.example.case4.model.Mark;
 import com.example.case4.model.Student;
 import com.example.case4.service.classroom.IClassService;
 import com.example.case4.service.coach.ICoachService;
+import com.example.case4.service.markstudent.IMarkStudentService;
 import com.example.case4.service.ministry.IMinistryService;
 import com.example.case4.service.student.IStudentService;
 import com.example.case4.service.user.IAppUserService;
@@ -26,14 +28,18 @@ public class HomeController {
     private IClassService classService;
     @Autowired
     private IMinistryService ministryService;
+    @Autowired
+    private IMarkStudentService markStudentService;
     @GetMapping("/")
     public String index(){
         return "home";
     }
     @GetMapping("/student")
     public ModelAndView homeStudent(){
-            ModelAndView modelAndView = new ModelAndView("homeStudent");
+        ModelAndView modelAndView = new ModelAndView("homeStudent");
         //Long id = appUserService.getCurrentUserId();
+        Iterable<Mark> listMark= markStudentService.showListMark(appUserService.getCurrentUserId());
+        modelAndView.addObject("listMark",listMark);
         Optional<Student> studentOptional = studentService.findById(appUserService.getCurrentUserId());
         Student student=studentOptional.get();
         modelAndView.addObject("student",student);
